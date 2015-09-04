@@ -4,97 +4,92 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
 
 import com.mycompany.myapp.dto.OrderItem;
 
+@Component
 public class OrderItemDao {
-	private Connection conn;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 	
-	public OrderItemDao(Connection conn){
-		this.conn = conn;
-	}
-	public Integer insert(OrderItem orderitem) throws SQLException{
+	
+	public Integer insert(OrderItem orderitem){
 		Integer pk = null;
 		String sql = "insert into orderitems(order_no,product_no,orderitem_count,orderitem_price) "
 				+ "values(?,?,?,?)";
-		PreparedStatement pstmt= conn.prepareStatement(sql,new String[] {"orderitem_no"});
-		
-		pstmt.setInt(1,orderitem.getOrderNo() );
-		pstmt.setInt(2, orderitem.getProductNo());
-		pstmt.setInt(3, orderitem.getOrderItemCount());
-		pstmt.setInt(4, orderitem.getOrderItemPrice());
-		int rows = pstmt.executeUpdate();
-		if (rows == 1) {
-			ResultSet rs = pstmt.getGeneratedKeys();
-			if (rs.next()) {
-				pk = rs.getInt(1);
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(new PreparedStatementCreator(){
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				PreparedStatement pstmt = conn.prepareStatement(sql,
+						new String[]{"orderitem_no"	});
+				pstmt.setInt(1,orderitem.getOrderNo() );
+				pstmt.setInt(2, orderitem.getProductNo());
+				pstmt.setInt(3, orderitem.getOrderItemCount());
+				pstmt.setInt(4, orderitem.getOrderItemPrice());
+				return pstmt;
 			}
-			rs.close();
-		}
-
-		pstmt.close();
+			
+		},keyHolder);
+		Number keyNumber = keyHolder.getKey();
+		int boardNo = keyNumber.intValue();
 		return pk;
 	}
 
-	public int update(OrderItem orderitem) throws SQLException {
-		int rows = 0;
+	public int update(OrderItem orderitem)  {
 		String sql = "update orderitems set order_no=? ,product_no=?, orderitem_count=?,orderitem_price=? where orderitem_no=?";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setInt(1, orderitem.getOrderNo());
-		pstmt.setInt(2, orderitem.getProductNo());
-		pstmt.setInt(3, orderitem.getOrderItemCount());
-		pstmt.setInt(4, orderitem.getOrderItemPrice());
-		pstmt.setInt(5, orderitem.getOrderItemNo());
-		rows = pstmt.executeUpdate();
-		pstmt.close();
+		int rows = jdbcTemplate.update(sql, orderitem.getOrderNo(),
+				orderitem.getProductNo(),orderitem.getOrderItemCount(),orderitem.getOrderItemPrice(),orderitem.getOrderItemNo());
 		return rows;
 	}
 
 	public int delete(int orderItemNo) throws SQLException {
-		int rows = 0;
 		String sql = "delete from orderitems where orderitem_no=?";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setInt(1, orderItemNo);
-		rows = pstmt.executeUpdate();
-		pstmt.close();
+		int rows= jdbcTemplate.update(sql,orderItemNo);
 		return rows;
 	}
 
 	public List<OrderItem> selectByorderNo(int orderNo, int pageNo,
 			int rowsPerPage) throws SQLException {
-		List<OrderItem> list = new ArrayList<OrderItem>();
+		
 		String sql = " SELECT a.order_no, a.product_no, a.orderitem_count, a.orderitem_price,c.product_price, c.product_name "
 				+ " FROM orderitems a, products c "
 				+ " WHERE a.product_no=c.product_no AND a.order_no = ? ORDER BY a.orderitem_no "
 				+ " limit ?,? ";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setInt(1, orderNo);
-		pstmt.setInt(2, (pageNo-1)*rowsPerPage);
-		pstmt.setInt(3, rowsPerPage);
+		List<OrderItem> list = jdbcTemplate.query(sql, new Object[]{orderNo,
+				((pageNo-1) * rowsPerPage),rowsPerPage},new RowMapper<OrderItem>() {
+
+					@Override
+					public OrderItem mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						OrderItem orderitem = new OrderItem();
+						orderitem.setOrderNo(rs.getInt("order_no"));
+						orderitem.setProductNo(rs.getInt("product_no"));
+						orderitem.setOrderItemCount(rs.getInt("orderitem_count"));
+						orderitem.setOrderItemPrice(rs.getInt("orderitem_price"));
+						orderitem.setProductPrice(rs.getInt("product_price"));
+						orderitem.setProductName(rs.getString("product_name"));
+						
+
+						return orderitem;
+					}
+		});
 		
-		ResultSet rs = pstmt.executeQuery();
-		while (rs.next()) {
-			OrderItem orderitem = new OrderItem();
-			orderitem.setOrderNo(rs.getInt("a.order_no"));
-			orderitem.setOrderItemCount(rs.getInt("a.orderitem_count"));
-			orderitem.setOrderItemPrice(rs.getInt("a.orderitem_price"));
-			orderitem.setProductPrice(rs.getInt("c.product_price"));
-			orderitem.setProductNo(rs.getInt("a.product_no"));
-			orderitem.setProductName(rs.getString("c.product_name"));
-			// orderitem.setOrderItemNo( rs.getInt("orderitem_no") );
-			list.add(orderitem);
-		}	
-	
-		rs.close();	
-	
-		pstmt.close();	
 		return list;
 	
 	}
-
-	public List<OrderItem> selectAll() throws SQLException {
+	//관리자를 구현 안하니까 모든 주문상세정보는 안하는걸로
+	/* public List<OrderItem> selectAll() throws SQLException {
 		List<OrderItem> list = new ArrayList<OrderItem>();
 		String sql = "select b.order_no, b.orderitem_count, b.orderitem_price, b.product_no, c.product_name "
 				+ "from orderitems b, products c "
@@ -116,5 +111,5 @@ public class OrderItemDao {
 
 		return list;
 	}
-
+*/
 }
