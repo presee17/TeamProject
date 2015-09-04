@@ -7,158 +7,115 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
+
+import com.mycompany.myapp.dto.Board;
 import com.mycompany.myapp.dto.Product;
 
+@Component
 public class ProductDao {
 
-	private Connection conn;
-	
-	public ProductDao(Connection conn) {
-		this.conn = conn;
-	}
-	//새 상품 등록
-	public Integer insert(Product product) throws SQLException {
-		int rows = 0;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
+	public Integer insert(Product product) {
+		Integer pk = null;
 		String sql = "INSERT INTO products(product_name, product_price) "
 				+ "VALUES(?,?)";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		
-		pstmt.setString(1, product.getpName());
-		pstmt.setInt(2, product.getpPrice());
-		
-		rows = pstmt.executeUpdate();
-		if(rows < 1) {
-			System.out.println("입력 실패");
-		}
-		
-		pstmt.close();
-		return rows;
+
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				PreparedStatement pstmt = conn.prepareStatement(sql,
+						new String[] { "product_no" });
+				pstmt.setString(1, product.getpName());
+				pstmt.setInt(2, product.getpPrice());
+				return pstmt;
+			}
+		}, keyHolder);
+		Number keyNumber = keyHolder.getKey();
+		pk = keyNumber.intValue();
+		return pk;
+
 	}
-	//상품 이름 수정
-	public Integer updateProductName(Product product) throws SQLException {
-		int rows = 0;
+
+	public Integer updateProductName(Product product) {
 		String sql = "UPDATE products SET product_name=? WHERE product_no=?";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, product.getpName());
-		pstmt.setInt(2, product.getpNo());
-		
-		rows = pstmt.executeUpdate();
-		if(rows < 1) {
-			System.out.println("입력 실패");
-		}
-		
-		pstmt.close();
+		int rows = jdbcTemplate.update(sql, product.getpName(),
+				product.getpNo());
 		return rows;
 	}
-	//상품 가격 수정
+
 	public Integer updateProductPrice(Product product) throws SQLException {
-		int rows = 0;
-		String sql = "UPDATE products SET product_price=? WHERE product_no=?";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		
-		pstmt.setInt(1, product.getpPrice());
-		pstmt.setInt(2, product.getpNo());
-		
-		rows = pstmt.executeUpdate();
-		if(rows < 1) {
-			System.out.println("입력 실패");
-		}
-		
-		pstmt.close();
+		String sql = "UPDATE products SET product_name=? WHERE product_no=?";
+		int rows = jdbcTemplate.update(sql, product.getpPrice(),
+				product.getpNo());
 		return rows;
+
 	}
-	//상품 삭제
+
 	public Integer deleteByProductNo(int no) throws SQLException {
-		int rows = 0;
 		String sql = "DELETE FROM products WHERE product_no=?";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		
-		pstmt.setInt(1, no);
-		rows = pstmt.executeUpdate();
-		if(rows < 1) {
-			System.out.println("제품 삭제 실패");
-		} else {
-			System.out.println(no + "번 상품이 삭제되었습니다.");
-		}
-		
-		pstmt.close();
+
+		int rows = jdbcTemplate.update(sql, no);
 		return rows;
 	}
-	//등록된 전체 상품 삭제
+
 	public Integer deleteAll() throws SQLException {
-		int rows = 0;
 		String sql = "DELETE FROM products";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		
-		rows = pstmt.executeUpdate();
-		if(rows < 1) {
-			System.out.println("제품 삭제 실패했습니다.");
-		} else {
-			System.out.println("모든 제품을 삭제했습니다.");
-		}
-		
-		pstmt.close();
+		int rows = jdbcTemplate.update(sql);
+
 		return rows;
 	}
-	//해당 상품번호에 해당하는 상품 정보
-	public Product selectByProductNo(int no) throws SQLException {
-		Product product = null;
+
+	public Product selectByProductNo(int pNo) throws SQLException {
 		String sql = "SELECT * FROM products WHERE product_no=?";
-		
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setInt(1, no);
-		
-		ResultSet rs = pstmt.executeQuery();
-		if(rs.next()) {
-			product = new Product();
-			product.setpNo(rs.getInt("product_no"));
-			product.setpName(rs.getString("product_name"));
-			product.setpPrice(rs.getInt("product_price"));
-		}
-		
-		rs.close();
-		pstmt.close();
-		
+		Product product = jdbcTemplate.queryForObject(sql,
+				new Object[] { pNo }, new RowMapper<Product>() {
+					@Override
+					public Product mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Product product = new Product();
+						product.setpNo(rs.getInt("product_no"));
+						product.setpName(rs.getString("product_name"));
+						product.setpPrice(rs.getInt("product_price"));
+						return product;
+					}
+				});
 		return product;
+
 	}
-	//전체 상품정보 페이징
-	public List<Product> selectAllByPage(int pageNo, int rowsPerPage) throws SQLException {
-		List<Product> list = new ArrayList<Product>();
+
+	public List<Product> selectAllByPage(int pageNo, int rowsPerPage)
+			throws SQLException {
 		String sql = "SELECT * FROM products LIMIT ?,?";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setInt(1, (pageNo-1)*rowsPerPage);
-		pstmt.setInt(2, rowsPerPage);
-		ResultSet rs = pstmt.executeQuery();
-		while(rs.next()) {
-			Product product = new Product(); 
-			product.setpNo(rs.getInt("product_no"));
-			product.setpName(rs.getString("product_name"));
-			product.setpPrice(rs.getInt("product_price"));
-			list.add(product);
-		}
-		
-		rs.close();
-		pstmt.close();
-		
+		List<Product> list = jdbcTemplate.query(sql, new Object[] {
+				(pageNo - 1) * rowsPerPage, rowsPerPage },
+				new RowMapper<Product>() {
+					@Override
+					public Product mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Product product = new Product();
+						product.setpNo(rs.getInt("product_no"));
+						product.setpName(rs.getString("product_name"));
+						product.setpPrice(rs.getInt("product_price"));
+						return product;
+					}
+				});
 		return list;
 	}
-	//전체 상품정보 페이징 없이
-	public List<Product> selectAll() throws SQLException {
-		List<Product> list = new ArrayList<Product>();
-		String sql = "SELECT * FROM products";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		
-		ResultSet rs = pstmt.executeQuery();
-		while(rs.next()) {
-			Product product = new Product();
-			product.setpNo(rs.getInt("product_no"));
-			product.setpName(rs.getString("product_name"));
-			product.setpPrice(rs.getInt("product_price"));
-			list.add(product);
-		}
-		
-		rs.close();
-		pstmt.close();
-		return list;
+
+	public int selectCount() {
+		String sql = "select count(*) from products";
+		int rows = jdbcTemplate.queryForObject(sql, Integer.class);
+		return rows;
 	}
 }
