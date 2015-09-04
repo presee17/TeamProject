@@ -1,4 +1,4 @@
-package test.shoppingmall.vo;
+package com.mycompany.myapp.dto;
 
 public class Product {
 	private int pNo;

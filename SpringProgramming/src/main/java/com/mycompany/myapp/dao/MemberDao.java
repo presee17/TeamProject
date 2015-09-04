@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 import com.mycompany.myapp.dto.Member;
+import com.mycompany.myapp.dto.Member;
 
 @Component
 public class MemberDao {

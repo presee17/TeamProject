@@ -1,4 +1,4 @@
-package test.shoppingmall.service;
+package com.mycompany.myapp.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import test.shoppingmall.ConnectionManager;
-import test.shoppingmall.dao.CartDao;
-import test.shoppingmall.dao.OrderDao;
-import test.shoppingmall.dao.OrderItemDao;
-import test.shoppingmall.vo.Cart;
-import test.shoppingmall.vo.Order;
-import test.shoppingmall.vo.OrderItem;
+import com.mycompany.myapp.dao.CartDao;
+import com.mycompany.myapp.dao.OrderDao;
+import com.mycompany.myapp.dao.OrderItemDao;
+import com.mycompany.myapp.dto.Cart;
+import com.mycompany.myapp.dto.ConnectionManager;
+import com.mycompany.myapp.dto.Order;
+import com.mycompany.myapp.dto.OrderItem;
 
 public class OrderService {
    Connection conn;
@@ -22,19 +22,19 @@ public class OrderService {
       this.sc = sc;
    }
 
-   // ·Î±×ÀÎÇÑ ¾ÆÀÌµğ¿¡ ÇØ´çÇÏ´Â Àå¹Ù±¸´Ï ¹°Ç°À» ÁÖ¹®ÇÏ´Â ¸Ş¼Òµå
+   // ë¡œê·¸ì¸í•œ ì•„ì´ë””ì— í•´ë‹¹í•˜ëŠ” ì¥ë°”êµ¬ë‹ˆ ë¬¼í’ˆì„ ì£¼ë¬¸í•˜ëŠ” ë©”ì†Œë“œ
    public void cartToOrder(String memberId) {
       try {
          conn = ConnectionManager.getConnection();
 
-         // ÁÖ¹®ÀÌ ½ÇÆĞÇß´Âµ¥µµ Àå¹Ù±¸´Ï¸¦ ºñ¿ì´Â °ÍÀ» ¹æÁöÇÏ±â À§ÇØ transaction Ã³¸®
+         // ì£¼ë¬¸ì´ ì‹¤íŒ¨í–ˆëŠ”ë°ë„ ì¥ë°”êµ¬ë‹ˆë¥¼ ë¹„ìš°ëŠ” ê²ƒì„ ë°©ì§€í•˜ê¸° ìœ„í•´ transaction ì²˜ë¦¬
          conn.setAutoCommit(false);
 
          CartDao cartDao = new CartDao(conn);
 
          List<Cart> list = cartDao.selectByMemberId(memberId);
-         if (list.isEmpty()) { // Àå¹Ù±¸´Ï°¡ ºñ¾úÀ» °æ¿ì ¿¹¿ÜÃ³¸®
-            System.out.println("Àå¹Ù±¸´Ï°¡ ºñ¾ú½À´Ï´Ù.");
+         if (list.isEmpty()) { // ì¥ë°”êµ¬ë‹ˆê°€ ë¹„ì—ˆì„ ê²½ìš° ì˜ˆì™¸ì²˜ë¦¬
+            System.out.println("ì¥ë°”êµ¬ë‹ˆê°€ ë¹„ì—ˆìŠµë‹ˆë‹¤.");
          } else {
             int total = 0; // total orderPrice
 
@@ -48,7 +48,7 @@ public class OrderService {
             OrderDao orderDao = new OrderDao(conn);
             int orderNo = orderDao.insert(order);
 
-            // ÁÖ¹® »ó¼¼Á¤º¸ Dto¿¡ °ª ÀÔ·Â
+            // ì£¼ë¬¸ ìƒì„¸ì •ë³´ Dtoì— ê°’ ì…ë ¥
             OrderItemDao orderitemDao = new OrderItemDao(conn);
             OrderItem orderitem = new OrderItem();
             for (Cart cart : list) {
@@ -59,19 +59,19 @@ public class OrderService {
                orderitemDao.insert(orderitem);
             }
 
-            // Àå¹Ù±¸´Ï ºñ¿ì±â
+            // ì¥ë°”êµ¬ë‹ˆ ë¹„ìš°ê¸°
             cartDao.deleteAll(memberId);
 
             conn.commit();
             conn.close();
-            System.out.println("ÁÖ¹®ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+            System.out.println("ì£¼ë¬¸ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
          }
       } catch (Exception e) {
          try {
             conn.rollback();
          } catch (SQLException e1) {
          }
-         System.out.println("ÁÖ¹®¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù. °ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇØÁÖ¼¼¿ä.");
+         System.out.println("ì£¼ë¬¸ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤. ê´€ë¦¬ìì—ê²Œ ë¬¸ì˜í•´ì£¼ì„¸ìš”.");
          e.printStackTrace();
       } finally {
          try {
@@ -82,60 +82,60 @@ public class OrderService {
    }
 
    public void deliveryOrder() {
-      int update = 0; // update ½ÇÇà ¿©ºÎ È®ÀÎ¿ë
-      Order order = null; // select ½ÇÇà ¿©ºÎ È®ÀÎ¿ë
+      int update = 0; // update ì‹¤í–‰ ì—¬ë¶€ í™•ì¸ìš©
+      Order order = null; // select ì‹¤í–‰ ì—¬ë¶€ í™•ì¸ìš©
 
       try {
          conn = ConnectionManager.getConnection();
          OrderDao orderDao = new OrderDao(conn);
 
-         System.out.println("----------------- ¹è¼Û Ã³¸® ¸Ş´º----------------");
-         System.out.println("ÁÖ¹®¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+         System.out.println("----------------- ë°°ì†¡ ì²˜ë¦¬ ë©”ë‰´----------------");
+         System.out.println("ì£¼ë¬¸ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
          int orderNumber = Integer.parseInt(sc.nextLine());
-         order = orderDao.selectByPK(orderNumber); // ÇØ´ç ¾ÆÀÌµğ¿¡ ÇØ´çÇÏ´Â ÁÖ¹®Á¤º¸ °¡Á®¿À±â
+         order = orderDao.selectByPK(orderNumber); // í•´ë‹¹ ì•„ì´ë””ì— í•´ë‹¹í•˜ëŠ” ì£¼ë¬¸ì •ë³´ ê°€ì ¸ì˜¤ê¸°
 
-         if (order != null) { // ÁÖ¹®Á¤º¸°¡ ÀÖÀ» °æ¿ì ½ÇÇà
-            while (true) { // Àß¸øµÈ °ªÀ» ÀÔ·ÂÇß°Å³ª ¼öÁ¤ ½ÇÆĞ½Ã ÀçÀÔ·ÂÀ» À§ÇÑ while¹® Ã³¸®
-               System.out.println("ÇöÀç ¹è¼Û»óÅÂ : " + order.getOrderDelivery());
-               System.out.println("¹è¼Û¿Ï·á Ã³¸®ÇÏ½Ã°Ú½À´Ï±î?  Yes:1 or No:2");
+         if (order != null) { // ì£¼ë¬¸ì •ë³´ê°€ ìˆì„ ê²½ìš° ì‹¤í–‰
+            while (true) { // ì˜ëª»ëœ ê°’ì„ ì…ë ¥í–ˆê±°ë‚˜ ìˆ˜ì • ì‹¤íŒ¨ì‹œ ì¬ì…ë ¥ì„ ìœ„í•œ whileë¬¸ ì²˜ë¦¬
+               System.out.println("í˜„ì¬ ë°°ì†¡ìƒíƒœ : " + order.getOrderDelivery());
+               System.out.println("ë°°ì†¡ì™„ë£Œ ì²˜ë¦¬í•˜ì‹œê² ìŠµë‹ˆê¹Œ?  Yes:1 or No:2");
                int choice = Integer.parseInt(sc.nextLine());
 
                if (choice == 1) {
-                  order.setOrderDelivery("¹è¼Û¿Ï·á"); // DTOÀÇ ¹è¼ÛÁ¤º¸ º¯°æ
-                  update = orderDao.update(order); // update ½ÇÇà
-                  if (update == 1) { // update°¡ ½ÇÇàµÈ °æ¿ì
-                     System.out.println(order.getOrderDelivery() + "Ã³¸® µÇ¾ú½À´Ï´Ù.");
+                  order.setOrderDelivery("ë°°ì†¡ì™„ë£Œ"); // DTOì˜ ë°°ì†¡ì •ë³´ ë³€ê²½
+                  update = orderDao.update(order); // update ì‹¤í–‰
+                  if (update == 1) { // updateê°€ ì‹¤í–‰ëœ ê²½ìš°
+                     System.out.println(order.getOrderDelivery() + "ì²˜ë¦¬ ë˜ì—ˆìŠµë‹ˆë‹¤.");
                      break;
-                  } else { // update°¡ ½ÇÆĞÇÑ °æ¿ì
-                     System.out.println("¼öÁ¤¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù");
+                  } else { // updateê°€ ì‹¤íŒ¨í•œ ê²½ìš°
+                     System.out.println("ìˆ˜ì •ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤");
                      break;
                   }
                } else if (choice == 2) {
-                  System.out.println("¸Ş´º·Î µ¹¾Æ°©´Ï´Ù.");
+                  System.out.println("ë©”ë‰´ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.");
                   break;
-               } else { // 1°ú 2¸¦ Á¦¿Ü °ª ¿¹¿ÜÃ³¸®
-                  System.out.println("Àß¸øµÈ ÀÔ·Â°ªÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+               } else { // 1ê³¼ 2ë¥¼ ì œì™¸ ê°’ ì˜ˆì™¸ì²˜ë¦¬
+                  System.out.println("ì˜ëª»ëœ ì…ë ¥ê°’ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
                   continue;
                }
             }
          }
-      } catch (NumberFormatException e) { // ¼ıÀÚ¸¦ Á¦¿ÜÇÑ ¿ÀÀÔ·Â ¿¹¿ÜÃ³¸®
-         System.out.println("Àß¸øµÈ ÀÔ·Â°ªÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+      } catch (NumberFormatException e) { // ìˆ«ìë¥¼ ì œì™¸í•œ ì˜¤ì…ë ¥ ì˜ˆì™¸ì²˜ë¦¬
+         System.out.println("ì˜ëª»ëœ ì…ë ¥ê°’ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.");
          e.printStackTrace();
       } catch (SQLException e) {
-         System.out.println("DBÁ¢±Ù Áß¿¡ ¹®Á¦°¡ »ı°å½À´Ï´Ù");
+         System.out.println("DBì ‘ê·¼ ì¤‘ì— ë¬¸ì œê°€ ìƒê²¼ìŠµë‹ˆë‹¤");
          e.printStackTrace();
       } catch (ClassNotFoundException e) {
       } finally {
          try {
             conn.close();
          } catch (SQLException e) {
-            System.out.println("DB¸¦ ´İ´Â Áß¿¡ ¹®Á¦°¡ »ı°å½À´Ï´Ù");
+            System.out.println("DBë¥¼ ë‹«ëŠ” ì¤‘ì— ë¬¸ì œê°€ ìƒê²¼ìŠµë‹ˆë‹¤");
          }
       }
    }
 
-   // ·Î±×ÀÎÇÑ ¾ÆÀÌµğÀÇ ÁÖ¹®Á¤º¸¸¦ º¸¿©ÁÖ´Â ¸Ş¼Òµå
+   // ë¡œê·¸ì¸í•œ ì•„ì´ë””ì˜ ì£¼ë¬¸ì •ë³´ë¥¼ ë³´ì—¬ì£¼ëŠ” ë©”ì†Œë“œ
    public void showOrder(String memberId) {
       try {
          conn = ConnectionManager.getConnection();
@@ -150,29 +150,29 @@ public class OrderService {
             orderList = orderDao.selectByPage(memberId, pageNo, rowsPerPage);
 
             System.out.println("-------------------------------------------------------------------");
-            System.out.println("    ÁÖ¹®¹øÈ£    |     ÁÖ¹®ÀÚ     |      ÁÖ¹®±İ¾×     |  ¹è¼Û»óÅÂ      |  ÁÖ¹®³¯Â¥");
+            System.out.println("    ì£¼ë¬¸ë²ˆí˜¸    |     ì£¼ë¬¸ì     |      ì£¼ë¬¸ê¸ˆì•¡     |  ë°°ì†¡ìƒíƒœ      |  ì£¼ë¬¸ë‚ ì§œ");
             System.out.println("-------------------------------------------------------------------");
-            if (!orderList.isEmpty()) { // ÁÖ¹®ÀÌ Á¸ÀçÇÏ´ÂÁö È®ÀÎ
+            if (!orderList.isEmpty()) { // ì£¼ë¬¸ì´ ì¡´ì¬í•˜ëŠ”ì§€ í™•ì¸
                for (Order order : orderList) {
                   System.out.println("" + order.getOrderNo() + " " + order.getMemberId() + "  "
                         + order.getOrderPrice() + " " + order.getOrderDelivery()+"\t"+order.getOrderDate());
                }
             } else {
-               System.out.println("ÇØ´ç ¾ÆÀÌµğÀÇ ÁÖ¹®Á¤º¸°¡ ¾ø½À´Ï´Ù.");
-               exit = true; // while¹® Á¾·á
+               System.out.println("í•´ë‹¹ ì•„ì´ë””ì˜ ì£¼ë¬¸ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.");
+               exit = true; // whileë¬¸ ì¢…ë£Œ
             }
 
             System.out.println("-------------------------------------------------------------------");
-            System.out.println("ÇöÀç ÆäÀÌÁö: " + pageNo);
+            System.out.println("í˜„ì¬ í˜ì´ì§€: " + pageNo);
             System.out.println("-------------------------------------------------------------------");
             if (pageNo <= 1) {
-               System.out.println("ÀÔ·Â(ex: ´ÙÀ½ÆäÀÌÁö: > | º¸±âÁ¾·á: q");
+               System.out.println("ì…ë ¥(ex: ë‹¤ìŒí˜ì´ì§€: > | ë³´ê¸°ì¢…ë£Œ: q");
             } else
                if (orderList.size() < rowsPerPage || orderDao.selectAllByPage(pageNo + 1, rowsPerPage).isEmpty()) {
-               // ¸¶Áö¸· ÆäÀÌÁö ÀÎÁö È®ÀÎ
-               System.out.println("ÀÔ·Â(ex: ÀÌÀüÆäÀÌÁö: < | º¸±âÁ¾·á: q");
+               // ë§ˆì§€ë§‰ í˜ì´ì§€ ì¸ì§€ í™•ì¸
+               System.out.println("ì…ë ¥(ex: ì´ì „í˜ì´ì§€: < | ë³´ê¸°ì¢…ë£Œ: q");
             } else {
-               System.out.println("ÀÔ·Â(ex: ÀÌÀüÆäÀÌÁö: <, ´ÙÀ½ÆäÀÌÁö: > | º¸±âÁ¾·á: q");
+               System.out.println("ì…ë ¥(ex: ì´ì „í˜ì´ì§€: <, ë‹¤ìŒí˜ì´ì§€: > | ë³´ê¸°ì¢…ë£Œ: q");
             }
             System.out.print(": ");
             String choice = sc.nextLine();
@@ -181,13 +181,13 @@ public class OrderService {
                   pageNo -= 1;
                   continue;
                } else {
-                  System.out.println("¸ñ·ÏÀÇ Ã³À½ÀÔ´Ï´Ù.");
+                  System.out.println("ëª©ë¡ì˜ ì²˜ìŒì…ë‹ˆë‹¤.");
                   continue;
                }
             } else if (choice.equals(">")) {
                if (orderList.size() < rowsPerPage || orderDao.selectAllByPage(pageNo + 1, rowsPerPage).isEmpty()) {
-                  // ¸¶Áö¸· ÆäÀÌÁö ÀÎÁö È®ÀÎ
-                  System.out.println("¸ñ·ÏÀÇ ¸¶Áö¸· ÀÔ´Ï´Ù.");
+                  // ë§ˆì§€ë§‰ í˜ì´ì§€ ì¸ì§€ í™•ì¸
+                  System.out.println("ëª©ë¡ì˜ ë§ˆì§€ë§‰ ì…ë‹ˆë‹¤.");
                   continue;
                } else {
                   pageNo += 1;
@@ -200,7 +200,7 @@ public class OrderService {
                   pageNo = Integer.parseInt(choice);
                   continue;
                } catch (NumberFormatException e) {
-                  System.out.println("´Ù½Ã ÀÔ·ÂÇÏ¼¼¿ä.");
+                  System.out.println("ë‹¤ì‹œ ì…ë ¥í•˜ì„¸ìš”.");
                   continue;
                }
             }
@@ -215,7 +215,7 @@ public class OrderService {
       }
    }
 
-   // ¸ğµç ÁÖ¹® Á¤º¸¸¦ º¸¿©ÁÖ´Â ¸Ş¼Òµå (°ü¸®ÀÚ¿ë)
+   // ëª¨ë“  ì£¼ë¬¸ ì •ë³´ë¥¼ ë³´ì—¬ì£¼ëŠ” ë©”ì†Œë“œ (ê´€ë¦¬ììš©)
    public void showAllOrder() {
       try {
          conn = ConnectionManager.getConnection();
@@ -230,29 +230,29 @@ public class OrderService {
             orderList = orderDao.selectAllByPage(pageNo, rowsPerPage);
 
             System.out.println("-------------------------------------------------------------------");
-            System.out.println("    ÁÖ¹®¹øÈ£    |     ÁÖ¹®ÀÚ     |      ÁÖ¹®±İ¾×     |  ¹è¼Û»óÅÂ");
+            System.out.println("    ì£¼ë¬¸ë²ˆí˜¸    |     ì£¼ë¬¸ì     |      ì£¼ë¬¸ê¸ˆì•¡     |  ë°°ì†¡ìƒíƒœ");
             System.out.println("-------------------------------------------------------------------");
-            if (!orderList.isEmpty()) { // ÁÖ¹®ÀÌ Á¸ÀçÇÏ´ÂÁö È®ÀÎ
+            if (!orderList.isEmpty()) { // ì£¼ë¬¸ì´ ì¡´ì¬í•˜ëŠ”ì§€ í™•ì¸
                for (Order order : orderList) {
                   System.out.println("" + order.getOrderNo() + " " + order.getMemberId() + "  "
                         + order.getOrderPrice() + " " + order.getOrderDelivery());
                }
             } else {
-               System.out.println("ÇØ´ç ¾ÆÀÌµğÀÇ ÁÖ¹®Á¤º¸°¡ ¾ø½À´Ï´Ù.");
-               exit = true; // while¹® Á¾·á
+               System.out.println("í•´ë‹¹ ì•„ì´ë””ì˜ ì£¼ë¬¸ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤.");
+               exit = true; // whileë¬¸ ì¢…ë£Œ
             }
 
             System.out.println("-------------------------------------------------------------------");
-            System.out.println("ÇöÀç ÆäÀÌÁö: " + pageNo);
+            System.out.println("í˜„ì¬ í˜ì´ì§€: " + pageNo);
             System.out.println("-------------------------------------------------------------------");
             if (pageNo <= 1) {
-               System.out.println("ÀÔ·Â(ex: ´ÙÀ½ÆäÀÌÁö: > | º¸±âÁ¾·á: q");
+               System.out.println("ì…ë ¥(ex: ë‹¤ìŒí˜ì´ì§€: > | ë³´ê¸°ì¢…ë£Œ: q");
             } else
                if (orderList.size() < rowsPerPage || orderDao.selectAllByPage(pageNo + 1, rowsPerPage).isEmpty()) {
-               // ¸¶Áö¸· ÆäÀÌÁö ÀÎÁö È®ÀÎ
-               System.out.println("ÀÔ·Â(ex: ÀÌÀüÆäÀÌÁö: < | º¸±âÁ¾·á: q");
+               // ë§ˆì§€ë§‰ í˜ì´ì§€ ì¸ì§€ í™•ì¸
+               System.out.println("ì…ë ¥(ex: ì´ì „í˜ì´ì§€: < | ë³´ê¸°ì¢…ë£Œ: q");
             } else {
-               System.out.println("ÀÔ·Â(ex: ÀÌÀüÆäÀÌÁö: <, ´ÙÀ½ÆäÀÌÁö: > | º¸±âÁ¾·á: q");
+               System.out.println("ì…ë ¥(ex: ì´ì „í˜ì´ì§€: <, ë‹¤ìŒí˜ì´ì§€: > | ë³´ê¸°ì¢…ë£Œ: q");
             }
             System.out.print(": ");
             String choice = sc.nextLine();
@@ -261,13 +261,13 @@ public class OrderService {
                   pageNo -= 1;
                   continue;
                } else {
-                  System.out.println("¸ñ·ÏÀÇ Ã³À½ÀÔ´Ï´Ù.");
+                  System.out.println("ëª©ë¡ì˜ ì²˜ìŒì…ë‹ˆë‹¤.");
                   continue;
                }
             } else if (choice.equals(">")) {
                if (orderList.size() < rowsPerPage || orderDao.selectAllByPage(pageNo + 1, rowsPerPage).isEmpty()) {
-                  // ¸¶Áö¸· ÆäÀÌÁö ÀÎÁö È®ÀÎ
-                  System.out.println("¸ñ·ÏÀÇ ¸¶Áö¸· ÀÔ´Ï´Ù.");
+                  // ë§ˆì§€ë§‰ í˜ì´ì§€ ì¸ì§€ í™•ì¸
+                  System.out.println("ëª©ë¡ì˜ ë§ˆì§€ë§‰ ì…ë‹ˆë‹¤.");
                   continue;
                } else {
                   pageNo += 1;
@@ -280,7 +280,7 @@ public class OrderService {
                   pageNo = Integer.parseInt(choice);
                   continue;
                } catch (NumberFormatException e) {
-                  System.out.println("´Ù½Ã ÀÔ·ÂÇÏ¼¼¿ä.");
+                  System.out.println("ë‹¤ì‹œ ì…ë ¥í•˜ì„¸ìš”.");
                   continue;
                }
             }

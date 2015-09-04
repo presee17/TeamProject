@@ -1,4 +1,4 @@
-package test.shoppingmall.service;
+package com.mycompany.myapp.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.PatternSyntaxException;
 
-import test.shoppingmall.ConnectionManager;
-import test.shoppingmall.dao.MemberDao;
-import test.shoppingmall.vo.Member;
+import com.mycompany.myapp.dao.MemberDao;
+import com.mycompany.myapp.dto.ConnectionManager;
+import com.mycompany.myapp.dto.Member;
 
 public class MemberService {
 	private Connection conn;
