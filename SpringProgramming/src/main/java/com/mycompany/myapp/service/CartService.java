@@ -1,180 +1,35 @@
 package com.mycompany.myapp.service;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Scanner;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.mycompany.myapp.dao.CartDao;
-import com.mycompany.myapp.dao.ProductDao;
 import com.mycompany.myapp.dto.Cart;
-import com.mycompany.myapp.dto.ConnectionManager;
-import com.mycompany.myapp.dto.Product;
 
+@Component
 public class CartService {
-	Scanner sc;
-
-	public CartService(Scanner sc) {
-		this.sc = sc;
+	@Autowired
+	private CartDao cartDao;
+	// íšŒì›ì˜ ì¥ë°”êµ¬ë‹ˆë¥¼ ëª¨ë‘ ëª¨ì—¬ì¤€ë‹¤.
+	public List<Cart>  getPage(String memberId,int pageNo, int rowsPerPage) {
+		List<Cart> list = cartDao.selectByMemberId(memberId,pageNo, rowsPerPage);
+		return list;
+	}
+	
+	// ì¥ë°”êµ¬ë‹ˆì— ìƒí’ˆì„ ë„£ëŠ”ë‹¤. ë§Œì•½ íšŒì›ì´ ê°™ì€ ìƒí’ˆì„ ì£¼ë¬¸í•˜ë©´ ìë™ìœ¼ë¡œ updateë¡œ ë„˜ì–´ê°„ë‹¤.
+	public void add(Cart cart) {
+		cartDao.insert(cart);
+	}
+	
+	// íšŒì›ì´ ì¥ë°”êµ¬ë‹ˆì— ë‹´ì€ ìƒí’ˆí•˜ë‚˜ë¥¼ ì‚­ì œí•œë‹¤.
+	public void deleteOne(int productNo,String memberId) {
+		cartDao.deleteOne(productNo,memberId);
 	}
 
-	// È¸¿øÀÇ Àå¹Ù±¸´Ï¸¦ ¸ğµÎ ¸ğ¿©ÁØ´Ù.
-	public void showCart(String memberId) {
-		Connection conn = null;
-		try {
-			conn = ConnectionManager.getConnection();
-			//conn.setAutoCommit(false);
-			CartDao cartDao = new CartDao(conn);
-			List<Cart> list = cartDao.selectByMemberId(memberId);
-			if (list.isEmpty()) {
-				System.out.println();
-				System.out.println("Àå¹Ù±¸´Ï°¡ ºñ¾îÀÖ½À´Ï´Ù.");
-				System.out.println();
-			} else {
-				for (Cart cart : list) {
-					System.out.print("»óÇ°¹øÈ£ : " + cart.getProductNo() + "\t");
-					System.out.print("»óÇ°¸í : " + cart.getProductName() + "\t");
-					System.out.print("¼ö·® : " + cart.getCartCount() + "\t");
-					System.out.println("°¡°İ : " + cart.getCartPrice());
-				}
-			}
-		} catch (Exception e) {
-			System.out.println("¿¬°á¿À·ù");
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (Exception e) {
-			}
-		}
-	}
-
-	// Àå¹Ù±¸´Ï¿¡ »óÇ°À» ³Ö´Â´Ù. ¸¸¾à È¸¿øÀÌ °°Àº »óÇ°À» ÁÖ¹®ÇÏ¸é ÀÚµ¿À¸·Î update·Î ³Ñ¾î°£´Ù.
-	public void insertCart(String memberId) {
-		Connection conn = null;
-		try {
-			conn = ConnectionManager.getConnection();
-			// conn.setAutoCommit(false);
-			CartDao cartDao = new CartDao(conn);
-			ProductDao productDao = new ProductDao(conn);
-
-			Cart cart = new Cart();
-
-			// ÁÖ¹®ÀÚ
-			cart.setMemberId(memberId);
-
-			// ÁÖ¹®ÇÒ »óÇ° ¹øÈ£
-			System.out.print("ÁÖ¹®ÇÒ »óÇ° ¹øÈ£ : ");
-			Integer productNo = Integer.parseInt(sc.nextLine());
-			Product product = productDao.selectByProductNo(productNo);
-			if (product != null) {
-				cart.setProductNo(productNo);
-			} else {
-				System.out.println();
-				System.out.println("»óÇ° ¸ñ·ÏÀ» ´Ù½Ãº¸½Ã°í »óÇ°¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä");
-				return; // returnÀ» ÇÏ´õ¶óµµ finally´Â ½ÇÇàµÈ´Ù.
-			}
-
-			boolean isnew = true;
-			List<Cart> list = cartDao.selectByMemberId(memberId);
-			for (Cart c : list) {
-				if (c.getProductNo() == productNo) {
-					isnew = false;
-					cart = c;
-				}
-			}
-
-			// ÁÖ¹®¼ö·®
-			System.out.print("¼ö·® : ");
-			String strCount = sc.nextLine();
-			if (strCount.length() > 9) {
-				System.out.println();
-				System.out.println("³Ê¹«¸¹¾Æ¼­ ÁÖ¹®ÇÒ ¼ö ¾ø¾î¿ä¤Ğ¤Ğ");
-			} else {
-				Integer cartCount = Integer.parseInt(strCount);
-				if (isnew == true) {
-					cart.setCartCount(cartCount);
-					cart.setCartPrice(cartCount * product.getpPrice());
-					cartDao.insert(cart);
-					System.out.println();
-					System.out.println("»óÇ° Àå¹Ù±¸´Ï ÀúÀå!!");
-				} else {
-					cart.setCartCount(cart.getCartCount() + cartCount);
-					cart.setCartPrice(cart.getCartCount() * product.getpPrice());
-					cartDao.update(cart);
-					System.out.println();
-					System.out.println("ÀÌ¹Ì Àå¹Ù±¸´Ï¿¡ ³ÖÀº »óÇ°ÀÌ¶ó ¼ö·® ¾÷µ¥ÀÌÆ® Çß½À´Ï´Ù.");
-				}
-			}
-		} 
-		catch (NumberFormatException e) {
-			System.out.println("¼ıÀÚ¸¦ ÀÔ·ÂÇÏ¼Å¾ßÁÒ~");
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Á¤È®ÇÑ »óÇ° ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
-		} finally {
-			try {
-				conn.close();
-			} catch (Exception e) {
-			}
-		}
-	}
-
-	// È¸¿øÀÌ Àå¹Ù±¸´Ï¿¡ ´ãÀº »óÇ°ÇÏ³ª¸¦ »èÁ¦ÇÑ´Ù.
-	public void deleteOneCart(String memberId) {
-		Connection conn = null;
-		try {
-			conn = ConnectionManager.getConnection();
-			conn.setAutoCommit(false);
-			CartDao cartDao = new CartDao(conn);
-			System.out.print("»èÁ¦ÇÒ »óÇ°¹øÈ£ ÀÔ·Â : ");
-			int productNo = Integer.parseInt(sc.nextLine());
-			int rows = cartDao.deleteOne(productNo, memberId);
-			if (rows == 1) {
-				System.out.println();
-				System.out.println(productNo + " ¹ø »óÇ°ÀÌ »èÁ¦µÇ¾ú½À´Ï´Ù!");
-			} else {
-				System.out.println();
-				System.out.println(productNo + " ¹ø »óÇ°ÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù!");
-			}
-			conn.commit();
-		} catch (NumberFormatException e) {
-			System.out.println("¼ıÀÚ¸¦ ÀÔ·ÂÇÏ¼Å¾ßÁÒ~!");
-		} catch (Exception e) {
-			System.out.println("¼ıÀÚ¸¦ ÀÔ·ÂÇÏ¼Å¾ßÁÒ~!");
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-			}
-		} finally {
-			try {
-				conn.close();
-			} catch (Exception e) {
-			}
-		}
-	}
-
-	// È¸¿øÀÇ Àå¹Ù±¸´Ï¸¦ ºñ¿î´Ù.
+	// íšŒì›ì˜ ì¥ë°”êµ¬ë‹ˆë¥¼ ë¹„ìš´ë‹¤.
 	public void deleteAllCart(String memberId) {
-		Connection conn = null;
-		try {
-			conn = ConnectionManager.getConnection();
-			conn.setAutoCommit(false);
-			CartDao cartDao = new CartDao(conn);
-			cartDao.deleteAll(memberId);
-			System.out.println("Àå¹Ù±¸´Ï¸¦ ºñ¿ü½À´Ï´Ù.");
-			conn.commit();
-		} catch (Exception e) {
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-			}
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (Exception e) {
-			}
-		}
+		cartDao.deleteAll(memberId);
 	}
 }
