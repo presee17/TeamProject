@@ -22,7 +22,7 @@ public class OrderItemDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	
-	public Integer insert(OrderItem orderitem,int orderNo){
+	public Integer insert(OrderItem orderitem){
 		Integer pk = null;
 		String sql = "insert into orderitems(order_no,product_no,orderitem_count,orderitem_price) "
 				+ "values(?,?,?,?)";
@@ -33,7 +33,7 @@ public class OrderItemDao {
 					throws SQLException {
 				PreparedStatement pstmt = conn.prepareStatement(sql,
 						new String[]{"orderitem_no"	});
-				pstmt.setInt(1,orderNo);
+				pstmt.setInt(1, orderitem.getOrderNo());
 				pstmt.setInt(2, orderitem.getProductNo());
 				pstmt.setInt(3, orderitem.getOrderItemCount());
 				pstmt.setInt(4, orderitem.getOrderItemPrice());
