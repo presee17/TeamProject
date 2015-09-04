@@ -17,8 +17,8 @@ public class OrderItemService {
 	@Autowired
 	private OrderItemDao orderItemDao;
 
-	public void add(OrderItem orderItem,int orderNo ) {
-		orderItemDao.insert(orderItem,orderNo);
+	public void add(OrderItem orderItem) {
+		orderItemDao.insert(orderItem);
 					
 	}
 	public List<OrderItem> getPage(int orderNo,int pageNo,int rowsPerPage ){
