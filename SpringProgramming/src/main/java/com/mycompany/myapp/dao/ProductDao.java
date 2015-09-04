@@ -54,7 +54,7 @@ public class ProductDao {
 		return rows;
 	}
 
-	public Integer updateProductPrice(Product product) throws SQLException {
+	public Integer updateProductPrice(Product product)  {
 		String sql = "UPDATE products SET product_name=? WHERE product_no=?";
 		int rows = jdbcTemplate.update(sql, product.getpPrice(),
 				product.getpNo());
@@ -62,14 +62,14 @@ public class ProductDao {
 
 	}
 
-	public Integer deleteByProductNo(int no) throws SQLException {
+	public Integer deleteByProductNo(int no)  {
 		String sql = "DELETE FROM products WHERE product_no=?";
 
 		int rows = jdbcTemplate.update(sql, no);
 		return rows;
 	}
 
-	public Integer deleteAll() throws SQLException {
+	public Integer deleteAll() {
 		String sql = "DELETE FROM products";
 		int rows = jdbcTemplate.update(sql);
 

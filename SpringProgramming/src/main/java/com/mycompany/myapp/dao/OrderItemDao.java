@@ -42,7 +42,7 @@ public class OrderItemDao {
 			
 		},keyHolder);
 		Number keyNumber = keyHolder.getKey();
-		int boardNo = keyNumber.intValue();
+		pk = keyNumber.intValue();
 		return pk;
 	}
 

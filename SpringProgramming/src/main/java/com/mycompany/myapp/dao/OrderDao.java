@@ -58,7 +58,7 @@ public class OrderDao {
 		return rows;
 	}
 
-	public Order selectByPK(int orderNo) throws SQLException { // orderNo를 매개변수로
+	public Order selectByPK(int orderNo)  { // orderNo를 매개변수로
 																// 받아 해당 열을
 																// select하는 메소드
 		String sql = "select * from orders where order_no=?";

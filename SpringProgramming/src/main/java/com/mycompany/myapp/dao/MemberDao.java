@@ -21,9 +21,8 @@ public class MemberDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	// ¸â¹ö µî·Ï.
-	public Integer insert(Member member){
-		Integer pk = null;
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
+	public String insert(Member member){
 		String sql = "insert into members values(?,?,?,?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator(){
@@ -37,9 +36,7 @@ public class MemberDao {
 				return pstmt;
 			}
 		}, keyHolder);
-		Number keyNumber = keyHolder.getKey();
-		pk = keyNumber.intValue();
-		return pk;
+		return member.getId();
 	}
 
 }
