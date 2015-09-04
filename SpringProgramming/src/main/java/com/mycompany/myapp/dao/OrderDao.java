@@ -44,12 +44,12 @@ public class OrderDao {
 		return pk;
 	}
 
-	public int update(Order order) { // order객체를 매개변수로 받아
+	/*public int update(Order order) { // order객체를 매개변수로 받아
 										// 테이블에 update하는 메소드
 		String sql = "update orders set order_delivery=? where order_no = ?";
 		int rows = jdbcTemplate.update(sql, order.getOrderDelivery(), order.getOrderNo());
 		return rows;
-	}
+	}*/
 
 	public int delete(int orderNo) { // orderNo를 매개변수로 받아 해당
 										// 열을 delete하는 메소드
