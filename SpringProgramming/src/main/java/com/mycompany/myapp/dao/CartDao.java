@@ -1,4 +1,4 @@
-package test.shoppingmall.dao;
+package com.mycompany.myapp.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,166 +7,103 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import test.shoppingmall.vo.Cart;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
+
+import com.mycompany.myapp.dto.Board;
+import com.mycompany.myapp.dto.Cart;
 
 
+@Component
 public class CartDao {
-	private Connection conn;
-
-	public CartDao(Connection conn) {
-		this.conn = conn;
-	}
-
-	//cart¿¡ µ¥ÀÌÅÍ¸¦ ³Ö¾îÁØ´Ù.
-	public Integer insert(Cart cart) throws SQLException {
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+	//cartì— ë°ì´í„°ë¥¼ ë„£ì–´ì¤€ë‹¤.
+	public Integer insert(Cart cart){
 		Integer pk = null;
 		String sql = "insert into carts (member_id,product_no,cart_count, cart_price) values(?,?,?,?)";
-		//member_id, product_no, cart_count, cart_price ¼øÀ¸·Î ÀÔ·ÂÇÏ¸é insertÇØÁØ´Ù.
-		PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"cart_no"});
-
-		pstmt.setString(1, cart.getMemberId());
-		pstmt.setInt(2, cart.getProductNo());
-		pstmt.setInt(3, cart.getCartCount());
-		pstmt.setInt(4, cart.getCartPrice());
-		int row = pstmt.executeUpdate();
-
-		if (row == 1) {
-			ResultSet rs = pstmt.getGeneratedKeys();
-			if (rs.next()) {
-				pk = rs.getInt(1);
+		//member_id, product_no, cart_count, cart_price ìˆœìœ¼ë¡œ ì…ë ¥í•˜ë©´ insertí•´ì¤€ë‹¤.
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(new PreparedStatementCreator(){
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+				PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"cart_no"});
+				pstmt.setString(1, cart.getMemberId());
+				pstmt.setInt(2, cart.getProductNo());
+				pstmt.setInt(3, cart.getCartCount());
+				pstmt.setInt(4, cart.getCartPrice());
+				return pstmt;
 			}
-			rs.close();
-
-		}
-		pstmt.close();
+		}, keyHolder);
+		Number keyNumber = keyHolder.getKey();
+		pk = keyNumber.intValue();
 		return pk;
 	}
 	
-	//ÇÑ »óÇ°À» »èÁ¦ÇÑ´Ù
-	public int deleteOne(int productNo, String memberId) throws SQLException {
-		int rows = 0;
+	//í•œ ìƒí’ˆì„ ì‚­ì œí•œë‹¤
+	public int deleteOne(int productNo, String memberId){
 		String sql = "delete from carts where product_no=? and member_id=?";
-		//ÇØ´çÈ¸¿øÀÌ »èÁ¦ÇÏ°íÀÚ ÇÏ´Â »óÇ° ¹øÈ£¸¦ ¹ŞÀº ÈÄ »èÁ¦ÇÑ´Ù.
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setInt(1, productNo);		
-		pstmt.setString(2, memberId);
-		rows = pstmt.executeUpdate();
-		pstmt.close();
+		int rows = jdbcTemplate.update(sql,productNo,memberId);
 		return rows;
 	}
 	
-	//Àå¹Ù±¸´Ï¿¡ ÀÖ´Â ¸ğµç »óÇ°À» »èÁ¦ÇÑ´Ù.
-	public void deleteAll(String memberId) throws SQLException {
+	//ì¥ë°”êµ¬ë‹ˆì— ìˆëŠ” ëª¨ë“  ìƒí’ˆì„ ì‚­ì œí•œë‹¤.
+	public int deleteAll(String memberId){
 		String sql = "delete from carts where member_id=?";
-		//ÇØ´ç È¸¿øÀÇ Àå¹Ù±¸´Ï¸¦ ÀüÃ¼»èÁ¦ÇÑ´Ù.
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, memberId);
-		pstmt.executeUpdate();
-		pstmt.close();
+		//í•´ë‹¹ íšŒì›ì˜ ì¥ë°”êµ¬ë‹ˆë¥¼ ì „ì²´ì‚­ì œí•œë‹¤.
+		int rows = jdbcTemplate.update(sql,memberId);
+		return rows;
 	}
 	
-	//È¸¿øÀÌ °°Àº »óÇ°À» ¶Ç Àå¹Ù±¸´Ï¿¡ ³ÖÀ¸¸é count¿Í price¸¦ »õ·Î setÇÑ´Ù.
-	public int update(Cart cart) throws SQLException {
-		int rows = 0;
+	//íšŒì›ì´ ê°™ì€ ìƒí’ˆì„ ë˜ ì¥ë°”êµ¬ë‹ˆì— ë„£ìœ¼ë©´ countì™€ priceë¥¼ ìƒˆë¡œ setí•œë‹¤.
+	public int update(Cart cart){
 		String sql = "update carts set cart_count=?,cart_price=? where product_no=? and member_id=?";
-
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-
-		pstmt.setInt(1, cart.getCartCount());
-		pstmt.setInt(2, cart.getCartPrice());
-		pstmt.setInt(3, cart.getProductNo());
-		pstmt.setString(4, cart.getMemberId());
-		rows = pstmt.executeUpdate();
-
-		pstmt.close();
+		int rows = jdbcTemplate.update(sql, cart.getCartCount(), cart.getCartPrice(), cart.getProductNo(),cart.getMemberId());
 		return rows;
 	}
 
-	// ¾µÁö¾È¾µÁö¸ğ¸£Áö¸¸ ÀÏ´Ü ¸¸µé¾ú¾î¿ë
-	public List<Cart> selectByPage(String memberId, int pageNo, int rowsPerPage) throws SQLException {
-		List<Cart> list = new ArrayList<Cart>();
-		String sql = "";
-		sql += "select rn, product_no, product_name, cart_count, cart_price ";
-		sql += "from ";
-		sql += "( ";
-		sql += "select rownum rn, product_no, product_name, cart_count, cart_price ";
-		sql += "from ";
-		sql += "( ";
-		sql += "select c.product_no, p.product_name, c.cart_count, c.cart_price ";
-		sql += "from carts c, products p ";
-        sql += "where c.product_no=p.product_no and c.member_id=? ";
-		sql += "order by c.product_no desc ";
-		sql += ") ";
-		sql += "where rownum<=? ";
-		sql += ") ";
-		sql += "where rn>=? ";
-
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-
-        pstmt.setString(1, memberId);
-		pstmt.setInt(2, pageNo * rowsPerPage);
-		pstmt.setInt(3, (pageNo - 1) * rowsPerPage + 1);
-		ResultSet rs = pstmt.executeQuery();
-
-		while (rs.next()) {
-			Cart carts = new Cart();
-			carts.setProductNo(rs.getInt("product_no"));
-			carts.setProductName(rs.getString("product_name"));
-			carts.setCartCount(rs.getInt("cart_count"));
-			carts.setCartPrice(rs.getInt("cart_price"));
-			list.add(carts);
-		}
-		rs.close();
-		pstmt.close();
-		return list;
-	}
-
-	//È¸¿øÀÌ »ê Àå¹Ù±¸´Ï ¸ñ·ÏÀ» º¸¿©ÁØ´Ù.
-	public List<Cart> selectByMemberId(String memberId) throws SQLException {
-
-		List<Cart> list = new ArrayList<Cart>();
-		
-		//carts Å×ÀÌºí°ú product Å×ÀÌºíÀ» Á¶ÀÎÇØ¼­ °ªÀ» °¡Á®¿È!
+	//íšŒì›ì´ ì‚° ì¥ë°”êµ¬ë‹ˆ ëª©ë¡ì„ ë³´ì—¬ì¤€ë‹¤.
+	public List<Cart> selectByMemberId(String memberId,int pageNo, int rowsPerPage){
+		//carts í…Œì´ë¸”ê³¼ product í…Œì´ë¸”ì„ ì¡°ì¸í•´ì„œ ê°’ì„ ê°€ì ¸ì˜´!
 		String sql = "select p.product_no, p.product_name, c.cart_count, c.cart_price ";
         sql += "from carts c, products p ";
-        sql += "where p.product_no=c.product_no and member_id=?";
-
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, memberId);
-		ResultSet rs = pstmt.executeQuery();
-
-		while (rs.next()) {
-			Cart carts = new Cart();
-			carts.setProductNo(rs.getInt("product_no"));
-			carts.setProductName(rs.getString("product_name"));
-			carts.setCartCount(rs.getInt("cart_count"));
-			carts.setCartPrice(rs.getInt("cart_price"));
-			carts.setMemberId(memberId);
-
-			list.add(carts);
-		}
-		rs.close();
-		pstmt.close();
+        sql += "where p.product_no=c.product_no and member_id=? ";
+    	sql += "order by p.product_no desc ";
+		sql += "limit ?,?";
+        
+		List<Cart> list = jdbcTemplate.query(sql, new Object[] {memberId,(pageNo - 1) * rowsPerPage, rowsPerPage },
+				new RowMapper<Cart>() {
+					@Override
+					public Cart mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Cart cart = new Cart();
+						cart.setProductNo(rs.getInt("product_no"));
+						cart.setProductName(rs.getString("product_name"));
+						cart.setCartCount(rs.getInt("cart_count"));
+						cart.setCartPrice(rs.getInt("cart_price"));
+						return cart;
+					}
+				});
 		return list;
 	}
 
 	public List<Cart> selectProductNo(String memberId) throws SQLException{
-		List<Cart> list = new ArrayList<Cart>();
 		String sql="select product_no from products where member_id=?";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, memberId);
-		ResultSet rs = pstmt.executeQuery();
-		
-		while (rs.next()) {
-			Cart carts = new Cart();
-			carts.setProductNo(rs.getInt("product_no"));
-			carts.setMemberId(memberId);
-
-			list.add(carts);
-		}
-		rs.close();
-		pstmt.close();
+		List<Cart> list = jdbcTemplate.query(sql, new Object[] {memberId},
+				new RowMapper<Cart>() {
+					@Override
+					public Cart mapRow(ResultSet rs, int rowNum) throws SQLException {
+						Cart cart = new Cart();
+						cart.setProductNo(rs.getInt("product_no"));
+						cart.setMemberId(memberId);
+						return cart;
+					}
+				});
 		return list;
 	}
-
 }

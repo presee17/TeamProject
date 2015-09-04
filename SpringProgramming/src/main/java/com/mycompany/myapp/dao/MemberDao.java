@@ -1,4 +1,4 @@
-package test.shoppingmall.dao;
+package com.mycompany.myapp.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,33 +7,41 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import test.shoppingmall.vo.Member;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
 
+import com.mycompany.myapp.dto.Member;
+
+@Component
 public class MemberDao {
-	private Connection conn;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 	
-	public MemberDao(Connection conn) {
-		this.conn = conn;
+	public Integer insert(Member member){
+		Integer pk = null;
+		String sql = "insert into members values(?,?,?,?)";
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(new PreparedStatementCreator(){
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, member.getId());
+				pstmt.setString(2, member.getName());
+				pstmt.setString(3, member.getPw());
+				pstmt.setInt(4, member.getIsAdmin());
+				return pstmt;
+			}
+		}, keyHolder);
+		Number keyNumber = keyHolder.getKey();
+		pk = keyNumber.intValue();
+		return pk;
 	}
-	
-	// ¸â¹ö µî·Ï.
-	public Integer insert(Member member) throws SQLException{
-		int rows = 0;
-		String sql = "INSERT INTO members VALUES(?,?,?,?)";
-		
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, member.getId());
-		pstmt.setString(2, member.getName());
-		pstmt.setString(3, member.getPw());
-		pstmt.setInt(4, member.getIsAdmin());
-		
-		rows = pstmt.executeUpdate();
-		
-		pstmt.close();
-		return rows;
-	}
-	//¸â¹ö µî±Þ ¼öÁ¤
-	public Integer updateMemberGrade(Member member) throws SQLException {
+
+	public Integer updateMemberGrade(Member member){
 		int rows = 0;
 		String sql = "UPDATE members SET member_isadmin=? WHERE member_id=?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -42,15 +50,15 @@ public class MemberDao {
 		pstmt.setString(2, member.getId());
 		rows = pstmt.executeUpdate();
 		if(rows < 1) {
-			System.out.println("º¯°æ ½ÇÆÐ");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 		} else {
-			System.out.println(member.getId() + "´ÔÀÌ µî±ÞÀÌ º¯°æµÇ¾ú½À´Ï´Ù.");
+			System.out.println(member.getId() + "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 		}
 		
 		pstmt.close();
 		return rows;
 	}
-	//¸â¹ö ºñ¹Ð¹øÈ£ ¼öÁ¤
+	//ï¿½ï¿½ï¿½ ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½
 	public Integer updateMemberPassword(Member member) throws SQLException {
 		int rows = 0;
 		String sql = "UPDATE members SET member_password=? WHERE member_id=?";
@@ -60,15 +68,15 @@ public class MemberDao {
 		pstmt.setString(2, member.getId());
 		rows = pstmt.executeUpdate();
 		if(rows < 1) {
-			System.out.println("ºñ¹Ð¹øÈ£ º¯°æ ½ÇÆÐ");
+			System.out.println("ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 		} else {
-			System.out.println(member.getId() + "´ÔÀÇ ºñ¹Ð¹øÈ£ º¯°æÀÌ ¼º°øÇß½À´Ï´Ù.");
+			System.out.println(member.getId() + "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ð¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 		}
 		
 		pstmt.close();
 		return rows;
 	}
-	//¸â¹ö »èÁ¦
+	//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public Integer delete(String id) throws SQLException {
 		int rows = 0;
 		String sql = "DELETE FROM members WHERE member_id=?";
@@ -77,15 +85,15 @@ public class MemberDao {
 		pstmt.setString(1, id);
 		rows = pstmt.executeUpdate();
 		if(rows < 1) {
-			System.out.println("»èÁ¦ ½ÇÆÐ");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 		} else {
-			System.out.println(id + "°¡ »èÁ¦ µÇ¾ú½À´Ï´Ù.");
+			System.out.println(id + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 		}
 		
 		pstmt.close();
 		return rows;
 	}
-	//ÀÔ·ÂÇÑ ID¿¡ ÇØ´çÇÏ´Â ¸â¹ö
+	//ï¿½Ô·ï¿½ï¿½ï¿½ IDï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 	public Member selectById(String id) throws SQLException {
 		Member member = null;
 		String sql = "SELECT * FROM members WHERE member_id=?";
@@ -107,7 +115,7 @@ public class MemberDao {
 		
 		return member;
 	}
-	//ÀüÃ¼ ¸â¹ö ¸®½ºÆ® ÆäÀÌÂ¡
+	//ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½Â¡
 	public List<Member> selectAllByPage(int pageNo, int rowsPerPage) throws SQLException {
 		List<Member> list = new ArrayList<Member>();
 		String sql = "SELECT member_id, member_name, member_isadmin "
@@ -129,7 +137,7 @@ public class MemberDao {
 		pstmt.close();
 		return list;
 	}
-	//ÀüÃ¼ ¸â¹ö ¸®½ºÆ® ÆäÀÌÂ¡ ¾øÀÌ
+	//ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½ï¿½ï¿½ï¿½
 	public List<Member> selectAll() throws SQLException {
 		List<Member> list = new ArrayList<Member>();
 		String sql = "SELECT * FROM members";
