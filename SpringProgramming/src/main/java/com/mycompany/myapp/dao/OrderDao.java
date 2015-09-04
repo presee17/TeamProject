@@ -58,7 +58,7 @@ public class OrderDao {
 		return rows;
 	}
 
-	public Order selectByPK(int orderNo)  { // orderNo를 매개변수로
+	public Order selectByPk(int orderNo)  { // orderNo를 매개변수로
 																// 받아 해당 열을
 																// select하는 메소드
 		String sql = "select * from orders where order_no=?";
@@ -79,7 +79,7 @@ public class OrderDao {
 
 	// memberId, pagaNo, rowsPerPage를 매개변수로 해당 아이디에 해당하는 order list를 페이지로 생성하는
 	// 메소드
-	public List<Order> selectByPage(String memberId, int pageNo, int rowsPerPage) {
+	public List<Order> selectByPage(String memberId,int pageNo, int rowsPerPage) {
 		String sql = "SELECT * FROM " + "orders " + "WHERE member_id=? ORDER BY order_no DESC " + "limit ?,? ";
 
 		List<Order> list = jdbcTemplate.query(sql, new Object[] { (pageNo - 1) * rowsPerPage, rowsPerPage },
@@ -115,5 +115,11 @@ public class OrderDao {
 					}
 				});
 		return list;
+	}
+
+	public int selectCount() {
+		String sql = "select count(*) from orders";
+		int rows = jdbcTemplate.queryForObject(sql, Integer.class);
+		return rows;
 	}
 }
