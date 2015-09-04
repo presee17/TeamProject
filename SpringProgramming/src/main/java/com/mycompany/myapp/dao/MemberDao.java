@@ -4,12 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,7 @@ public class MemberDao {
 
 	// ��� ���.
 	public String insert(Member member){
-		String sql = "insert into members values(?,?,?,?)";
+		String sql = "insert into members values(?,?,?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator(){
 			@Override
@@ -32,11 +31,31 @@ public class MemberDao {
 				pstmt.setString(1, member.getId());
 				pstmt.setString(2, member.getName());
 				pstmt.setString(3, member.getPw());
-				pstmt.setInt(4, member.getIsAdmin());
 				return pstmt;
 			}
 		}, keyHolder);
 		return member.getId();
 	}
-
+	
+	public Member selectById(String id){
+		String sql = "SELECT * FROM members WHERE member_id=?";
+		Member member = jdbcTemplate.queryForObject(sql, new Object[] { id }, new RowMapper<Member>() {
+			@Override
+			public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Member member = new Member();
+				member.setId(rs.getString("member_id"));
+				member.setPw(rs.getString("member_password"));
+				member.setName(rs.getString("member_name"));
+				member.setIsAdmin(rs.getInt("member_isadmin"));
+				return member;
+			}
+		});
+		return member;
+	}
+	
+	public Integer selectNoById(String id){
+		String sql = "SELECT * FROM members WHERE member_id=?";
+		Integer rows = jdbcTemplate.update(sql, id);
+		return rows;
+	}
 }
