@@ -24,8 +24,7 @@ public class OrderService {
 	public void cartToOrder(String memberId, int pageNo, int rowsPerPage) {
 
 		List<Cart> list = cartDao.selectByMemberId(memberId, pageNo, rowsPerPage);
-		if (list.isEmpty()) { // 장바구니가 비었을 경우 예외처리
-		} else {
+		if (!list.isEmpty()) { // 장바구니가 비었을 경우 예외처리
 			int total = 0; // total orderPrice
 			for (Cart cart : list) {
 				total += cart.getCartPrice();
@@ -35,8 +34,6 @@ public class OrderService {
 			order.setOrderPrice(total);
 
 			int orderNo = orderDao.insert(order);
-
-			orderDao.insert(order);
 
 			// 주문 상세정보 Dto에 값 입력
 			OrderItem orderItem = new OrderItem();
@@ -108,10 +105,10 @@ public class OrderService {
 */
 	// 로그인한 아이디의 주문정보를 보여주는 메소드
 	public List<Order> showOrder(String memberId, int pageNo, int rowsPerPage) {
-			List<Order> list = orderDao.selectByPage(memberId, pageNo, rowsPerPage);
-			return list;
-		} 
-	}
+		List<Order> list = orderDao.selectByPage(memberId, pageNo, rowsPerPage);
+		return list;
+	} 
+}
 
 	/*// 모든 주문 정보를 보여주는 메소드 (관리자용)
 	public void showAllOrder() {
