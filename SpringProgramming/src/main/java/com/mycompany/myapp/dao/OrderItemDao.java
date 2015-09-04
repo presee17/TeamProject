@@ -22,7 +22,7 @@ public class OrderItemDao {
 	private JdbcTemplate jdbcTemplate;
 	
 	
-	public Integer insert(OrderItem orderitem){
+	public Integer insert(OrderItem orderitem,int orderNo){
 		Integer pk = null;
 		String sql = "insert into orderitems(order_no,product_no,orderitem_count,orderitem_price) "
 				+ "values(?,?,?,?)";
@@ -33,7 +33,7 @@ public class OrderItemDao {
 					throws SQLException {
 				PreparedStatement pstmt = conn.prepareStatement(sql,
 						new String[]{"orderitem_no"	});
-				pstmt.setInt(1,orderitem.getOrderNo() );
+				pstmt.setInt(1,orderNo);
 				pstmt.setInt(2, orderitem.getProductNo());
 				pstmt.setInt(3, orderitem.getOrderItemCount());
 				pstmt.setInt(4, orderitem.getOrderItemPrice());
@@ -53,14 +53,14 @@ public class OrderItemDao {
 		return rows;
 	}
 
-	public int delete(int orderItemNo) throws SQLException {
-		String sql = "delete from orderitems where orderitem_no=?";
-		int rows= jdbcTemplate.update(sql,orderItemNo);
+	public int delete(int orderNo) {
+		String sql = "delete from orderitems where order_no=?";
+		int rows= jdbcTemplate.update(sql,orderNo);
 		return rows;
 	}
 
 	public List<OrderItem> selectByorderNo(int orderNo, int pageNo,
-			int rowsPerPage) throws SQLException {
+			int rowsPerPage){
 		
 		String sql = " SELECT a.order_no, a.product_no, a.orderitem_count, a.orderitem_price,c.product_price, c.product_name "
 				+ " FROM orderitems a, products c "
@@ -88,7 +88,7 @@ public class OrderItemDao {
 		return list;
 	
 	}
-	//관리자를 구현 안하니까 모든 주문상세정보는 안하는걸로
+	//愿�由ъ옄瑜� 援ы쁽 �븞�븯�땲源� 紐⑤뱺 二쇰Ц�긽�꽭�젙蹂대뒗 �븞�븯�뒗嫄몃줈
 	/* public List<OrderItem> selectAll() throws SQLException {
 		List<OrderItem> list = new ArrayList<OrderItem>();
 		String sql = "select b.order_no, b.orderitem_count, b.orderitem_price, b.product_no, c.product_name "
@@ -112,4 +112,9 @@ public class OrderItemDao {
 		return list;
 	}
 */
+	public int selectCount(int orderNo){
+		String sql = "select count(*) from orderitems where=?";
+		int rows=jdbcTemplate.queryForObject(sql,new Object[]{orderNo},Integer.class);
+		return rows;
+	}
 }

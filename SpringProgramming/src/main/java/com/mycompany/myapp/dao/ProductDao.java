@@ -76,7 +76,7 @@ public class ProductDao {
 		return rows;
 	}
 
-	public Product selectByProductNo(int pNo) throws SQLException {
+	public Product selectByProductNo(int pNo){
 		String sql = "SELECT * FROM products WHERE product_no=?";
 		Product product = jdbcTemplate.queryForObject(sql,
 				new Object[] { pNo }, new RowMapper<Product>() {
@@ -94,8 +94,7 @@ public class ProductDao {
 
 	}
 
-	public List<Product> selectAllByPage(int pageNo, int rowsPerPage)
-			throws SQLException {
+	public List<Product> selectAllByPage(int pageNo, int rowsPerPage){
 		String sql = "SELECT * FROM products LIMIT ?,?";
 		List<Product> list = jdbcTemplate.query(sql, new Object[] {
 				(pageNo - 1) * rowsPerPage, rowsPerPage },
