@@ -32,4 +32,9 @@ public class CartService {
 	public void deleteAllCart(String memberId) {
 		cartDao.deleteAll(memberId);
 	}
+
+	public int getTotalCartNo() {
+		int rows = cartDao.selectCount();
+		return rows;
+	}
 }

@@ -105,4 +105,10 @@ public class CartDao {
 				});
 		return list;
 	}
+
+	public int selectCount() {
+		String sql = "select count(*) from carts";
+		int rows = jdbcTemplate.queryForObject(sql, Integer.class);
+		return rows;
+	}
 }
