@@ -12,24 +12,24 @@ import com.mycompany.myapp.dto.Order;
 public class OrderDao {
 	private Connection conn;
 
-	// »ı¼ºÀÚ ÁÖÀÔ
+	// ìƒì„±ì ì£¼ì…
 	public OrderDao(Connection conn) {
 		this.conn = conn;
 	}
 
-	// µ¥ÀÌÅÍ Á¢±Ù ¸Ş¼Òµå
-	public Integer insert(Order order) throws SQLException { //order°´Ã¼¸¦ ¸Å°³º¯¼ö·Î ¹Ş¾Æ Å×ÀÌºí¿¡ insertÇÏ´Â ¸Ş¼Òµå
+	// ë°ì´í„° ì ‘ê·¼ ë©”ì†Œë“œ
+	public Integer insert(Order order) throws SQLException { //orderê°ì²´ë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì•„ í…Œì´ë¸”ì— insertí•˜ëŠ” ë©”ì†Œë“œ
 		Integer pk = null; 
 		String sql = "insert into orders (member_id, order_price, order_date) values (?,?, NOW())";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql, new String[] { "ORDER_NO" });
-		//order_no°¡ ÀÚµ¿ Áõ°¡ÇÏ´Â ¿­·Î sql¹® »ı¼º
+		//order_noê°€ ìë™ ì¦ê°€í•˜ëŠ” ì—´ë¡œ sqlë¬¸ ìƒì„±
 		
-		pstmt.setString(1, order.getMemberId()); //Dto¿¡ ÀúÀåµÈ ¾ÆÀÌµğ¸¦ °¡Á®¿À´Â ¸Ş¼­µå È£Ãâ
-		pstmt.setInt(2, order.getOrderPrice()); //Dto¿¡ ÀúÀåµÈ ÁÖ¹®°¡°İÀ» °¡Á®¿À´Â ¸Ş¼­µå È£Ãâ
+		pstmt.setString(1, order.getMemberId()); //Dtoì— ì €ì¥ëœ ì•„ì´ë””ë¥¼ ê°€ì ¸ì˜¤ëŠ” ë©”ì„œë“œ í˜¸ì¶œ
+		pstmt.setInt(2, order.getOrderPrice()); //Dtoì— ì €ì¥ëœ ì£¼ë¬¸ê°€ê²©ì„ ê°€ì ¸ì˜¤ëŠ” ë©”ì„œë“œ í˜¸ì¶œ
 		
-		// SQL¹® ÁØºñ  
-		int row = pstmt.executeUpdate(); // ½ÇÇà ÈÄ, ½ÇÇàµÈ Çà ¼ö ¸®ÅÏ
+		// SQLë¬¸ ì¤€ë¹„  
+		int row = pstmt.executeUpdate(); // ì‹¤í–‰ í›„, ì‹¤í–‰ëœ í–‰ ìˆ˜ ë¦¬í„´
 		
 		if (row == 1) {
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -38,45 +38,45 @@ public class OrderDao {
 			}
 			rs.close();
 		}
-		return pk; // insert ½ÇÆĞ½Ã null ¸®ÅÏ
+		return pk; // insert ì‹¤íŒ¨ì‹œ null ë¦¬í„´
 	}
 	
-	public int update(Order order) throws SQLException { //order°´Ã¼¸¦ ¸Å°³º¯¼ö·Î ¹Ş¾Æ Å×ÀÌºí¿¡ updateÇÏ´Â ¸Ş¼Òµå
+	public int update(Order order) throws SQLException { //orderê°ì²´ë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì•„ í…Œì´ë¸”ì— updateí•˜ëŠ” ë©”ì†Œë“œ
 		int rows = 0;
 		String sql = "update orders set order_delivery=? where order_no = ?";
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, order.getOrderDelivery()); //Dto¿¡ ÀúÀåµÈ ÁÖ¹®Á¤º¸¸¦ °¡Á®¿À´Â ¸Ş¼­µå È£Ãâ
-		pstmt.setInt(2, order.getOrderNo()); //Dto¿¡ ÀúÀåµÈ ÁÖ¹®¹øÈ£¸¦ °¡Á®¿À´Â ¸Ş¼­µå È£Ãâ
+		pstmt.setString(1, order.getOrderDelivery()); //Dtoì— ì €ì¥ëœ ì£¼ë¬¸ì •ë³´ë¥¼ ê°€ì ¸ì˜¤ëŠ” ë©”ì„œë“œ í˜¸ì¶œ
+		pstmt.setInt(2, order.getOrderNo()); //Dtoì— ì €ì¥ëœ ì£¼ë¬¸ë²ˆí˜¸ë¥¼ ê°€ì ¸ì˜¤ëŠ” ë©”ì„œë“œ í˜¸ì¶œ
 
-		rows = pstmt.executeUpdate(); // ½ÇÇà ÈÄ, ½ÇÇàµÈ Çà ¼ö ¸®ÅÏ
+		rows = pstmt.executeUpdate(); // ì‹¤í–‰ í›„, ì‹¤í–‰ëœ í–‰ ìˆ˜ ë¦¬í„´
 		
 		pstmt.close();
 		
-		return rows; //update ½ÇÆĞ½Ã 0 ¸®ÅÏ
+		return rows; //update ì‹¤íŒ¨ì‹œ 0 ë¦¬í„´
 	}
 
-	public int delete (int orderNo) throws SQLException {  //orderNo¸¦ ¸Å°³º¯¼ö·Î ¹Ş¾Æ ÇØ´ç ¿­À» deleteÇÏ´Â ¸Ş¼Òµå
+	public int delete (int orderNo) throws SQLException {  //orderNoë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì•„ í•´ë‹¹ ì—´ì„ deleteí•˜ëŠ” ë©”ì†Œë“œ
 		int rows = 0;
 		String sql = "delete from orders where order_no=?";
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1, orderNo); 
 
-		rows = pstmt.executeUpdate(); // ¸î°³ÀÇ ÇàÀÌ ½ÇÇàµÇ¾ú´ÂÁö
+		rows = pstmt.executeUpdate(); // ëª‡ê°œì˜ í–‰ì´ ì‹¤í–‰ë˜ì—ˆëŠ”ì§€
 		return rows;
 	}
 
-	public Order selectByPK(int orderNo) throws SQLException { //orderNo¸¦ ¸Å°³º¯¼ö·Î ¹Ş¾Æ ÇØ´ç ¿­À» selectÇÏ´Â ¸Ş¼Òµå
+	public Order selectByPK(int orderNo) throws SQLException { //orderNoë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ ë°›ì•„ í•´ë‹¹ ì—´ì„ selectí•˜ëŠ” ë©”ì†Œë“œ
 		Order order = null;
 		String sql = "select * from orders where order_no=?";
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1, orderNo);
-		ResultSet rs = pstmt.executeQuery(); // ÁÖ¾îÁø SQL¹®À» °á°ú·Î ¸¸µç ResultSetÀ» ¹İÈ¯ÇÏ´Â ¸Ş¼Òµå È£Ãâ
+		ResultSet rs = pstmt.executeQuery(); // ì£¼ì–´ì§„ SQLë¬¸ì„ ê²°ê³¼ë¡œ ë§Œë“  ResultSetì„ ë°˜í™˜í•˜ëŠ” ë©”ì†Œë“œ í˜¸ì¶œ
 
-		if (rs.next()) { // Ä¿¼­¸¦ ´ÙÀ½À¸·Î ¿Å±æ ¼ö ÀÖÀ» ¶§ true¸¦ ¸®ÅÏÇÏ´Â next()ÇÔ¼ö È£Ãâ
-			order = new Order(); //»õ·Î¿î DTO°´Ã¼ »ı¼ºÀÚ È£Ãâ
+		if (rs.next()) { // ì»¤ì„œë¥¼ ë‹¤ìŒìœ¼ë¡œ ì˜®ê¸¸ ìˆ˜ ìˆì„ ë•Œ trueë¥¼ ë¦¬í„´í•˜ëŠ” next()í•¨ìˆ˜ í˜¸ì¶œ
+			order = new Order(); //ìƒˆë¡œìš´ DTOê°ì²´ ìƒì„±ì í˜¸ì¶œ
 			order.setOrderNo(rs.getInt("order_no"));
 			order.setMemberId(rs.getString("member_id"));
 			order.setOrderPrice(rs.getInt("order_price"));
@@ -88,7 +88,7 @@ public class OrderDao {
 		return order;
 	}
 	
-	//memberId, pagaNo, rowsPerPage¸¦ ¸Å°³º¯¼ö·Î ÇØ´ç ¾ÆÀÌµğ¿¡ ÇØ´çÇÏ´Â order list¸¦ ÆäÀÌÁö·Î »ı¼ºÇÏ´Â ¸Ş¼Òµå
+	//memberId, pagaNo, rowsPerPageë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ í•´ë‹¹ ì•„ì´ë””ì— í•´ë‹¹í•˜ëŠ” order listë¥¼ í˜ì´ì§€ë¡œ ìƒì„±í•˜ëŠ” ë©”ì†Œë“œ
 	public List<Order> selectByPage(String memberId, int pageNo, int rowsPerPage) throws SQLException {
 		List<Order> list = new ArrayList<Order>();
 		String sql = "SELECT * FROM "
@@ -103,7 +103,7 @@ public class OrderDao {
 
 		ResultSet rs = pstmt.executeQuery();
 
-		while (rs.next()) { // Ä¿¼­¸¦ ´ÙÀ½À¸·Î ¿Å±æ ¼ö ÀÖÀ» ¶§ true¸¦ ¸®ÅÏÇÏ´Â next()ÇÔ¼ö È£Ãâ
+		while (rs.next()) { // ì»¤ì„œë¥¼ ë‹¤ìŒìœ¼ë¡œ ì˜®ê¸¸ ìˆ˜ ìˆì„ ë•Œ trueë¥¼ ë¦¬í„´í•˜ëŠ” next()í•¨ìˆ˜ í˜¸ì¶œ
 			Order order = new Order();
 			order.setOrderNo(rs.getInt("order_No"));
 			order.setMemberId(rs.getString("member_id"));
@@ -118,7 +118,7 @@ public class OrderDao {
 		return list;
 	}
 	
-	//pagaNo, rowsPerPage¸¦ ¸Å°³º¯¼ö·Î ¸ğµç order Á¤º¸¸¦ ÆäÀÌÂ¡ÇÑ list·Î »ı¼ºÇÏ´Â ¸Ş¼Òµå (°ü¸®ÀÚ¿ë)
+	//pagaNo, rowsPerPageë¥¼ ë§¤ê°œë³€ìˆ˜ë¡œ ëª¨ë“  order ì •ë³´ë¥¼ í˜ì´ì§•í•œ listë¡œ ìƒì„±í•˜ëŠ” ë©”ì†Œë“œ (ê´€ë¦¬ììš©)
 	public List<Order> selectAllByPage(int pageNo, int rowsPerPage) throws SQLException {
 		List<Order> list = new ArrayList<Order>();
 		String sql = "SELECT * FROM "
