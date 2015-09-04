@@ -1,4 +1,4 @@
-package test.shoppingmall.service;
+package com.mycompany.myapp.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import test.shoppingmall.ConnectionManager;
-import test.shoppingmall.dao.CartDao;
-import test.shoppingmall.dao.OrderDao;
-import test.shoppingmall.dao.OrderItemDao;
-import test.shoppingmall.vo.Cart;
-import test.shoppingmall.vo.Order;
-import test.shoppingmall.vo.OrderItem;
+import com.mycompany.myapp.dao.CartDao;
+import com.mycompany.myapp.dao.OrderDao;
+import com.mycompany.myapp.dao.OrderItemDao;
+import com.mycompany.myapp.dto.Cart;
+import com.mycompany.myapp.dto.ConnectionManager;
+import com.mycompany.myapp.dto.Order;
+import com.mycompany.myapp.dto.OrderItem;
 
 public class OrderService {
    Connection conn;

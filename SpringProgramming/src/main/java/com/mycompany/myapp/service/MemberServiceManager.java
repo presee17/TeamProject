@@ -1,12 +1,8 @@
-package test.shoppingmall.manager;
+package com.mycompany.myapp.service;
 
 import java.util.Scanner;
 
-import test.shoppingmall.service.CartService;
-import test.shoppingmall.service.OrderItemService;
-import test.shoppingmall.service.OrderService;
-import test.shoppingmall.service.ProductService;
-import test.shoppingmall.vo.Member;
+import com.mycompany.myapp.dto.Member;
 
 public class MemberServiceManager {
 	Scanner sc;

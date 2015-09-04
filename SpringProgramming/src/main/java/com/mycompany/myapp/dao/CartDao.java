@@ -1,4 +1,4 @@
-package test.shoppingmall.dao;
+package com.mycompany.myapp.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import test.shoppingmall.vo.Cart;
+import com.mycompany.myapp.dto.Cart;
 
 
 public class CartDao {

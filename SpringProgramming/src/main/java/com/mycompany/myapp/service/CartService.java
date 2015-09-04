@@ -1,16 +1,15 @@
-package test.shoppingmall.service;
+package com.mycompany.myapp.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-import test.shoppingmall.ConnectionManager;
-import test.shoppingmall.dao.CartDao;
-import test.shoppingmall.dao.ProductDao;
-import test.shoppingmall.vo.Cart;
-import test.shoppingmall.vo.Member;
-import test.shoppingmall.vo.Product;
+import com.mycompany.myapp.dao.CartDao;
+import com.mycompany.myapp.dao.ProductDao;
+import com.mycompany.myapp.dto.Cart;
+import com.mycompany.myapp.dto.ConnectionManager;
+import com.mycompany.myapp.dto.Product;
 
 public class CartService {
 	Scanner sc;
