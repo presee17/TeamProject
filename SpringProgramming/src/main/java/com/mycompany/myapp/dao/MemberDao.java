@@ -36,7 +36,7 @@ public class MemberDao {
 		}, keyHolder);
 		return member.getId();
 	}
-	
+	 
 	public Member selectById(String id){
 		String sql = "SELECT * FROM members WHERE member_id=?";
 		Member member = jdbcTemplate.queryForObject(sql, new Object[] { id }, new RowMapper<Member>() {
