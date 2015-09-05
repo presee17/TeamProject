@@ -14,11 +14,11 @@
 	</head>
 	
 	<body>
-	 	<h5>주문 상품정보</h5>
+	 	<h5>주문 내역</h5>
 	 	
-	 	<table id="resulttable">
+	 	<table id="orderlist">
 			<tr>
-	 			<td style="widtd:30px">제품번호</td>
+	 			<td style="widtd:30px">주문번호</td>
 	 			<td style="widtd:80px">제품이름</td>
 	 		 	<td style="widtd:40px">가격</td>
 	 		 	<td style="widtd:30px">수량</td>
@@ -36,6 +36,5 @@
 			</c:forEach>
 	 	</table>
 			주문이 완료되었습니다.
-		<button>메인메뉴로 가기</button>
 	</body>
 </html> 
