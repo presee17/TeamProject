@@ -22,7 +22,7 @@ public class OrderService {
 	private OrderItemDao orderItemDao;
 
 	// 로그인한 아이디에 해당하는 장바구니 물품을 주문하는 메소드
-	public void cartToOrder(String memberId, int pageNo, int rowsPerPage) {
+	public void cartToOrder(String memberId) {
 
 		List<Cart> list = cartDao.selectByMemberId(memberId);
 		if (!list.isEmpty()) { // 장바구니가 비었을 경우 예외처리
@@ -62,7 +62,7 @@ public class OrderService {
 		return order;
 	}
 	
-	// 페이징을 위해서 전체 주문 수자를 파악할 때 사용.
+	// 페이징을 위해서 전체 주문 숫자를 파악할 때 사용.
 	public int getTotalOrderNo() {
 		int rows = orderDao.selectCount();
 		return rows;

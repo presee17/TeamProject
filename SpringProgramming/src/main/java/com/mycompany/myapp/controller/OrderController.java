@@ -21,17 +21,29 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
-
-	@RequestMapping("/order/list")
+	
+	//주문 버튼을 누르면 실행
+	@RequestMapping("/shoppingmall/order/order")
+	public String order(HttpSession session) {
+		String memberId = (String) session.getAttribute("memberId");
+		orderService.cartToOrder(memberId);
+		return "/shoppingmall/order/orderresult";
+	}
+	
+	//해당 ID에 해당하는 주문 리스트를 페이징 처리해서 보여줌
+	@RequestMapping("/shoppingmall/order/list")
 	public String list(@RequestParam(defaultValue = "1") int pageNo, Model model, HttpSession session) {
-
+		
+		//데이터 넘어왔는지 확인
+		logger.info("pageNo:"+ pageNo);
+		
+		
+		//현재 페이지 session에 저장
 		session.setAttribute("pageNo", pageNo);
 		
 		// 페이징을 위한 변수 선언
 		int rowsPerPage = 10;
 		int pagesPerGroup = 5;
-		
-		String memberId = (String) session.getAttribute(memberId);
 		
 		// 전체 주문 수
 		int totalOrderNo = orderService.getTotalOrderNo();
@@ -55,7 +67,8 @@ public class OrderController {
 		if (groupNo == totalGroupNo) {
 			endPageNo = totalPageNo;
 		}
-
+		String memberId = (String) session.getAttribute("memberId");
+		
 		// 현재 주문 리스트
 		List<Order> list = orderService.showOrder(memberId, pageNo, rowsPerPage);
 
@@ -69,70 +82,6 @@ public class OrderController {
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("list", list);
 
-		return "order/list";
+		return "/shoppingmall/order/list";
 	}
-
-	/*@RequestMapping("/order/writeForm")
-	public String writeForm() {
-		logger.info("writeForm()");
-		return "order/writeForm";
-	}
-
-	@RequestMapping("/order/updateForm")
-	public String updateForm(int orderNo,Model model) {
-		Order order=orderService.getOrder(orderNo);
-		model.addAttribute("order",order);
-		return "order/updateForm";
-	}
-
-	@RequestMapping("/order/write")
-	public String write(Order order,HttpSession session){
-		logger.info("write()");
-	
-		//파일 정보 얻기
-		ServletContext application=session.getServletContext();
-		String dirPath=application.getRealPath("/resources/uploadfiles");
-		String originalFilename=order.getAttach().getOriginalFilename();
-		String filesystemName=System.currentTimeMillis()+"-"+originalFilename;
-		String contentType=order.getAttach().getContentType();
-	
-		if(!order.getAttach().isEmpty()){
-			//파일에 저장하기
-			try {
-				order.getAttach().transferTo(new File(dirPath+"/"+filesystemName));
-			}catch (Exception e) {e.printStackTrace();}
-		}
-		//데이터베이스에 게시물 정보 저장
-
-		if(!order.getAttach().isEmpty()){
-			order.setOriginalFileName(originalFilename);
-			order.setFilesystemName(filesystemName);
-			order.setContentType(contentType);
-		}
-		orderService.add(order);
-
-		return "redirect:/order/list";
-	}
-
-	@RequestMapping("/order/update")
-	public String update(Order order) {
-		orderService.modify(order);
-		return "redirect:/order/detail?orderNo="+order.getNo();
-	}*/
-
-	/*@RequestMapping("/order/detail")
-	public String detail(int orderNo, Model model) {
-		orderService.addHitcount(orderNo);
-		Order order = orderService.getOrder(orderNo);
-		model.addAttribute("order", order);
-		return "order/detail";
-	}
-	*/
-	/*@RequestMapping("/order/delete")
-	public String delete(int orderNo) {
-		orderService.remove(orderNo);
-		return "redirect:/order/list";
-	}*/
-	
-	
 }

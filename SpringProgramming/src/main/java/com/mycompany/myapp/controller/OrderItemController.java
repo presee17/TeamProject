@@ -19,7 +19,7 @@ public class OrderItemController {
 	@Autowired
 	private OrderItemService orderItemService;
 	
-	@RequestMapping("/orderitem/list")
+	@RequestMapping("/shoppingmall/orderitem/list")
 	public String list(@RequestParam(defaultValue = "1")int pageNo,int orderNo, Model model, HttpSession session){
 		
 		session.setAttribute("pageNoOI",pageNo );
@@ -63,7 +63,7 @@ public class OrderItemController {
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("list", list);
 
-		return "orderitem/list";
+		return "/shoppingmall/orderitem/list";
 	}
 	
 	

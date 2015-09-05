@@ -19,7 +19,7 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
-	@RequestMapping("/product/list")
+	@RequestMapping("/shoppingmall/product/list")
 	public String list(@RequestParam(defaultValue = "1") int pageNo, Model model, HttpSession session) {
 		
 		

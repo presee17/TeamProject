@@ -24,7 +24,7 @@ public class CartController {
 	@Autowired
 	private CartService cartService;
 	
-	@RequestMapping("/cart/list")
+	@RequestMapping("/shoppingmall/cart/list")
 	public String list(@RequestParam(defaultValue = "1")String memberId,int pageNo, Model model, HttpSession session) {
 		logger.info("pageNo: "+pageNo);
 		
@@ -70,7 +70,7 @@ public class CartController {
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("list", list);
 
-		return "cart/list";
+		return "/shoppingmall/cart/list";
 	}
 
 }

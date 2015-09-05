@@ -50,16 +50,15 @@ public class OrderDao {
 		return rows;
 	}*/
 
-	public int delete(int orderNo) { // orderNo를 매개변수로 받아 해당
-										// 열을 delete하는 메소드
+	public int delete(int orderNo) { // orderNo를 매개변수로 받아 해당 열을 delete하는 메소드
+										
 		String sql = "delete from orders where order_no=?";
 		int rows = jdbcTemplate.update(sql, orderNo);
 		return rows;
 	}
 
-	public Order selectByPk(int orderNo)  { // orderNo를 매개변수로
-																// 받아 해당 열을
-																// select하는 메소드
+	public Order selectByPk(int orderNo)  { // orderNo를 매개변수로 받아 해당 열을 select하는 메소드
+														
 		String sql = "select * from orders where order_no=?";
 		Order order = jdbcTemplate.queryForObject(sql, new Object[] { orderNo }, new RowMapper<Order>() {
 			@Override
@@ -76,8 +75,7 @@ public class OrderDao {
 		return order;
 	}
 
-	// memberId, pagaNo, rowsPerPage를 매개변수로 해당 아이디에 해당하는 order list를 페이지로 생성하는
-	// 메소드
+	// memberId, pagaNo, rowsPerPage를 매개변수로 해당 아이디에 해당하는 order list를 페이지로 생성하는 메소드
 	public List<Order> selectByPage(String memberId,int pageNo, int rowsPerPage) {
 		String sql = "SELECT * FROM " + "orders " + "WHERE member_id=? ORDER BY order_no DESC " + "limit ?,? ";
 
@@ -97,7 +95,7 @@ public class OrderDao {
 		return list;
 	}
 
-	// pagaNo, rowsPerPage를 매개변수로 모든 order 정보를 페이징한 list로 생성하는 메소드 (관리자용)
+	/*// pagaNo, rowsPerPage를 매개변수로 모든 order 정보를 페이징한 list로 생성하는 메소드 (관리자용)
 	public List<Order> selectAllByPage(int pageNo, int rowsPerPage) {
 		String sql = "SELECT * FROM " + "orders " + "ORDER BY order_no DESC " + "limit ?,? ";
 		List<Order> list = jdbcTemplate.query(sql, new Object[] { (pageNo - 1) * rowsPerPage, rowsPerPage },
@@ -114,9 +112,9 @@ public class OrderDao {
 					}
 				});
 		return list;
-	}
+	}*/
 
-	public int selectCount() {
+	public int selectCount() { //pageing을 위해 전체 order 행 수를 리턴하는 메소드
 		String sql = "select count(*) from orders";
 		int rows = jdbcTemplate.queryForObject(sql, Integer.class);
 		return rows;
