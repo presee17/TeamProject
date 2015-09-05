@@ -6,14 +6,14 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
+		<script type="text/javascript">
+		
+		</script>
 		<style type="text/css">
 			a{
 			color: white;
 			}
-			
-			body {
-				color: white;
-			}
+		
 			table {
 				width: 100%;
 				border-collapse: collapse;
@@ -27,24 +27,20 @@
 				background-color: orange;
 				color: black;
 			}
-			#buttonGroup {
+			.btn {
 				margin: 10px;
+				text-align: center;
+				display:inline-block;
+				background-color: black;
+				color:white;
+				width:90px;
+				height:30px;
+			}
+			#btns{
 				text-align: center;
 			}
 			
-			#buttonGroup a {
-				display:inline-block;
-				width: 70px;
-				line-height: 30px;
-				text-decoration: none;
-				font-size: small;
-				color: white;
-				border: 1px solid darkgray;
-				background-color: gray;
-				font-weight: bold;
-			}
-			
-			#buttonGroup a:hover {
+			.btn:hover {
 				color: black;
 				background-color: lightgray;
 			}
@@ -56,7 +52,7 @@
 			
 			#pager a {
 				text-decoration: none;
-				color: white;
+				color: red;
 			}
 			
 			#pager a:hover {
@@ -86,12 +82,12 @@
 		<h4>장바구니 목록</h4>
 		
 		<table>
-			<tr>
-				<th style="width:40px">체크박스</th>
-				<th style="width:50px">상품번호</th>
+			<tr style="height:40px">
+				<th style="width:80px">체크박스</th>
+				<th style="width:90px">상품번호</th>
 				<th>상품이름</th>
-				<th style="width:60px">수량</th>
-				<th style="width:80px">가격</th>
+				<th style="width:90px">수량</th>
+				<th style="width:150px">가격</th>
 			</tr>
 			
 			<c:forEach var="cart" items="${list}">
@@ -122,11 +118,10 @@
 			
 			<a href="list?pageNo=${totalPageNo}">[맨끝]</a>
 		</div>		
-		<div class="buttonGroup">
-			<a href="accountCart">결제하기</a>
-		</div>
-			<div class="buttonGroup">
-			<a href="deleteCart">지우기</a>
+		
+		<div id="btns">
+			<div class="btn" onclick="javascript:alert('결제완료');">결제하기</div>
+			<div class="btn" onclick="javascript:alert('장바구니 삭제');">지우기</div>
 		</div>
 	</body>
 </html>
