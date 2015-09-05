@@ -14,6 +14,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
+import com.mycompany.myapp.dto.Order;
 import com.mycompany.myapp.dto.OrderItem;
 
 @Component
@@ -59,33 +60,33 @@ public class OrderItemDao {
 		return rows;
 	}
 
-	public List<OrderItem> selectByorderNo(int orderNo, int pageNo,
-			int rowsPerPage){
-		
-		String sql = " SELECT a.order_no, a.product_no, a.orderitem_count, a.orderitem_price,c.product_price, c.product_name "
-				+ " FROM orderitems a, products c "
-				+ " WHERE a.product_no=c.product_no AND a.order_no = ? ORDER BY a.orderitem_no "
-				+ " limit ?,? ";
-		List<OrderItem> list = jdbcTemplate.query(sql, new Object[]{orderNo,
-				((pageNo-1) * rowsPerPage),rowsPerPage},new RowMapper<OrderItem>() {
+		public List<OrderItem> selectByPage(int orderNo, int pageNo,
+				int rowsPerPage){
+			
+			String sql = " SELECT a.order_no, a.product_no, a.orderitem_count, a.orderitem_price,c.product_price, c.product_name "
+					+ " FROM orderitems a, products c "
+					+ " WHERE a.product_no=c.product_no AND a.order_no = ? ORDER BY a.orderitem_no "
+					+ " limit ?,? ";
+			List<OrderItem> list = jdbcTemplate.query(sql, new Object[]{orderNo,
+					((pageNo-1) * rowsPerPage),rowsPerPage},new RowMapper<OrderItem>() {
 
-					@Override
-					public OrderItem mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-						OrderItem orderitem = new OrderItem();
-						orderitem.setOrderNo(rs.getInt("order_no"));
-						orderitem.setProductNo(rs.getInt("product_no"));
-						orderitem.setOrderItemCount(rs.getInt("orderitem_count"));
-						orderitem.setOrderItemPrice(rs.getInt("orderitem_price"));
-						orderitem.setProductPrice(rs.getInt("product_price"));
-						orderitem.setProductName(rs.getString("product_name"));
-						
+						@Override
+						public OrderItem mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+							OrderItem orderitem = new OrderItem();
+							orderitem.setOrderNo(rs.getInt("order_no"));
+							orderitem.setProductNo(rs.getInt("product_no"));
+							orderitem.setOrderItemCount(rs.getInt("orderitem_count"));
+							orderitem.setOrderItemPrice(rs.getInt("orderitem_price"));
+							orderitem.setProductPrice(rs.getInt("product_price"));
+							orderitem.setProductName(rs.getString("product_name"));
+							
 
-						return orderitem;
-					}
-		});
-		
-		return list;
+							return orderitem;
+						}
+			});
+			
+			return list;
 	
 	}
 	//愿�由ъ옄瑜� 援ы쁽 �븞�븯�땲源� 紐⑤뱺 二쇰Ц�긽�꽭�젙蹂대뒗 �븞�븯�뒗嫄몃줈

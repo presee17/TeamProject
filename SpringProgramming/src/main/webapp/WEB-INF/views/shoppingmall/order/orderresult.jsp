@@ -25,15 +25,15 @@
 	 			<td style="widtd:50px">합계</td>
 			</tr>	
 			
-			<c:foreach var="order" items="${list}">
+			<c:forEach var="orderresult" items="${list}">
 				<tr>
-					<td style="widtd:30px">제품번호</td>
-		 			<td style="widtd:80px">제품이름</td>
-		 		 	<td style="widtd:40px">가격</td>
-		 		 	<td style="widtd:30px">수량</td>
-		 			<td style="widtd:50px">합계</td>
+					<td>${orderresult.orderItemNo}</td>
+		 			<td>${orderresult.productName}</td>
+		 		 	<td>${orderresult.productPrice}</td>
+		 		 	<td>${orderresult.orderItemCount}</td>
+		 			<td>${orderresult.orderItemPrice}</td>
 				</tr>
-			</c:foreach>
+			</c:forEach>
 	 	</table>
 			주문이 완료되었습니다.
 	</body>

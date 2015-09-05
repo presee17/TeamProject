@@ -5,13 +5,6 @@ public class OrderItem {
 	private int orderNo;
 	private int productNo;
 	private int productPrice;
-	public int getProductPrice() {
-		return productPrice;
-	}
-
-	public void setProductPrice(int productPrice) {
-		this.productPrice = productPrice;
-	}
 	private int orderItemCount;
 	private int orderItemPrice;
 	private String productName;
@@ -56,6 +49,12 @@ public class OrderItem {
 		this.orderItemPrice = orderItemPrice;
 	}
 	
+	public int getProductPrice() {
+		return productPrice;
+	}
 
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
+	}
 	
 }

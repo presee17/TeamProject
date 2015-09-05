@@ -13,8 +13,6 @@ import com.mycompany.myapp.dto.OrderItem;
 public class OrderItemService {
 	
 	@Autowired
-	private OrderDao orderdao;
-	@Autowired
 	private OrderItemDao orderItemDao;
 
 	public void add(OrderItem orderItem) {
@@ -22,9 +20,10 @@ public class OrderItemService {
 					
 	}
 	public List<OrderItem> getPage(int orderNo,int pageNo,int rowsPerPage ){
-		List<OrderItem> list = orderItemDao.selectByorderNo(orderNo, pageNo, rowsPerPage);
+		List<OrderItem> list = orderItemDao.selectByPage(orderNo, pageNo, rowsPerPage);
 		return list;
 	}
+	
 	public void remove(int orderNo){
 		orderItemDao.delete(orderNo);
 	}
