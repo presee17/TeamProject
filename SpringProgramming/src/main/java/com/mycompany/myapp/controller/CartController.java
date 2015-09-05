@@ -70,7 +70,7 @@ public class CartController {
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("list", list);
 
-		return "/shoppingmall/cart/cart";
+		return "shoppingmall/cart/cart";
 	}
 
 }

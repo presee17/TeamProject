@@ -21,7 +21,6 @@ public class OrderItemDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	
 	public Integer insert(OrderItem orderitem){
 		Integer pk = null;
 		String sql = "insert into orderitems(order_no,product_no,orderitem_count,orderitem_price) "

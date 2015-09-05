@@ -14,12 +14,12 @@ public class OrderItemService {
 	
 	@Autowired
 	private OrderDao orderdao;
+	
 	@Autowired
 	private OrderItemDao orderItemDao;
 
 	public void add(OrderItem orderItem) {
 		orderItemDao.insert(orderItem);
-					
 	}
 	public List<OrderItem> getPage(int orderNo,int pageNo,int rowsPerPage ){
 		List<OrderItem> list = orderItemDao.selectByorderNo(orderNo, pageNo, rowsPerPage);

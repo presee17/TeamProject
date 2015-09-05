@@ -38,7 +38,7 @@
 	<body>
 		<div>
 			<div class="btn"><a href="list">상품리스트</a></div>
-			<div class="btn"><a href="shoppingmall/cart/cart">장바구니</a></div>
+			<div class="btn"><a href="../cart/cart">장바구니</a></div>
 			<div class="btn"><a href="order">주문내역</a></div>
 		</div>
 	</body>
