@@ -68,7 +68,7 @@ public class CartDao {
 	}
 
 	//회원이 산 장바구니 목록을 보여준다.
-	public List<Cart> selectByMemberId(String memberId,int pageNo, int rowsPerPage){
+	public List<Cart> selectByMemberId(String memberId){
 		//carts 테이블과 product 테이블을 조인해서 값을 가져옴!
 		String sql = "select p.product_no, p.product_name, c.cart_count, c.cart_price ";
         sql += "from carts c, products p ";
@@ -76,7 +76,7 @@ public class CartDao {
     	sql += "order by p.product_no desc ";
 		sql += "limit ?,?";
         
-		List<Cart> list = jdbcTemplate.query(sql, new Object[] {memberId,(pageNo - 1) * rowsPerPage, rowsPerPage },
+		List<Cart> list = jdbcTemplate.query(sql, new Object[] {memberId},
 				new RowMapper<Cart>() {
 					@Override
 					public Cart mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -91,7 +91,8 @@ public class CartDao {
 		return list;
 	}
 
-	public List<Cart> selectProductNo(String memberId) throws SQLException{
+	//회원이 산 상품번호 
+	public List<Cart> selectProductNo(String memberId){
 		String sql="select product_no from products where member_id=?";
 		List<Cart> list = jdbcTemplate.query(sql, new Object[] {memberId},
 				new RowMapper<Cart>() {

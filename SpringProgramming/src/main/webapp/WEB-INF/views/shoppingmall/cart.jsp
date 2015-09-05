@@ -87,6 +87,7 @@
 		
 		<table>
 			<tr>
+				<th style="width:40px">체크박스</th>
 				<th style="width:50px">상품번호</th>
 				<th>상품이름</th>
 				<th style="width:60px">수량</th>
@@ -95,6 +96,7 @@
 			
 			<c:forEach var="cart" items="${list}">
 				<tr>
+					<td><input type="checkbox" name="check"/></td>
 					<td>${product.no}</td>
 					<td>${product.name}</td>
 					<td>${cart.count}</td>
@@ -121,10 +123,10 @@
 			<a href="list?pageNo=${totalPageNo}">[맨끝]</a>
 		</div>		
 		<div class="buttonGroup">
-			<a href="updateForm">추가</a>
+			<a href="accountCart">결제하기</a>
 		</div>
 			<div class="buttonGroup">
-			<a href="writeForm">삭제</a>
+			<a href="deleteCart">지우기</a>
 		</div>
 	</body>
 </html>

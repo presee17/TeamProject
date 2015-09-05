@@ -58,7 +58,7 @@ public class CartController {
 		}
 
 		// 현재 페이지 게시물 리스트
-		List<Cart> list = cartService.getPage(memberId,pageNo, rowsPerPage);
+		List<Cart> list = cartService.getPage(memberId);
 
 		// View로 넘길 데이터
 		model.addAttribute("pagesPerGroup", pagesPerGroup);
