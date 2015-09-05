@@ -12,16 +12,17 @@ public class MemberService {
 	@Autowired
 	private MemberDao memberDao;
 
+
 	// 회원가입
 	public boolean join(Member member) {
-		boolean join;
+		boolean possibleJoin;
 		if (memberDao.selectNoById(member.getId()) == null) {
-			join = true;
+			possibleJoin = true;
 			memberDao.insert(member);
 		} else {
-			join = false;
+			possibleJoin = false;
 		}
-		return join;
+		return possibleJoin;
 	}
 
 	// 로그인

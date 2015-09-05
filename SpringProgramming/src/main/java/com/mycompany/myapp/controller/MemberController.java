@@ -17,23 +17,23 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-	@RequestMapping("/member/loginForm")
+	@RequestMapping("/shoppingmall/member")
 	public String loginForm() {
 		logger.info("loginForm()");
-		return "member/loginForm";
+		return "shoppingmall/member";
 	}
 
-	@RequestMapping("/member/login")
-	public String login(Member member, Model model) {
+	@RequestMapping("/shoppingmall/login")
+	public String login(Member member) {
 		logger.info("login()");
 		String state = memberService.login(member);
-		String url ="";		
+		String url = "";
 		switch (state) {
 		case "noId":
-			url = "redirect:/member/login?state="+state;
+			url = "redirect:member/login?state=" + state;
 			break;
 		case "wrongPw":
-			url = "redirect:/member/login?state="+state;
+			url = "redirect:member/login?state=" + state;
 			break;
 		case "correct":
 			url = "member/menu";
@@ -42,15 +42,22 @@ public class MemberController {
 		return url;
 	}
 
-	@RequestMapping("/member/joinForm")
+	@RequestMapping("/shoppingmall/joinForm")
 	public String joinForm() {
 		logger.info("joinForm()");
-		return "member/joinForm";
+		return "shoppingmall/joinForm";
 	}
 
-	@RequestMapping("/member/join")
-	public String join() {
-		logger.info("joinForm()");
-		return "member/join";
+	@RequestMapping("/shoppingmall/join")
+	public String join(Member member) {
+		logger.info("join()");
+		String url = "";
+		boolean possibleJoin = memberService.join(member);
+		if (possibleJoin) {
+			url="redirect:shoppingmall/menu";
+		} else {
+			url ="redirect:shoppingmall/join?state=false";
+		}
+		return url;
 	}
 }
