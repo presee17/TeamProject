@@ -24,14 +24,14 @@ public class OrderController {
 
 	@RequestMapping("/order/list")
 	public String list(@RequestParam(defaultValue = "1") int pageNo, Model model, HttpSession session) {
-		logger.info("pageNo: "+pageNo);
-		
+
 		session.setAttribute("pageNo", pageNo);
 		
 		// 페이징을 위한 변수 선언
 		int rowsPerPage = 10;
 		int pagesPerGroup = 5;
-		String memberId = null;
+		
+		String memberId = (String) session.getAttribute(memberId);
 		
 		// 전체 주문 수
 		int totalOrderNo = orderService.getTotalOrderNo();
@@ -56,8 +56,8 @@ public class OrderController {
 			endPageNo = totalPageNo;
 		}
 
-		// 현재 페이지 게시물 리스트
-		List<Order> list = orderService.getPage(memberId, pageNo, rowsPerPage);
+		// 현재 주문 리스트
+		List<Order> list = orderService.showOrder(memberId, pageNo, rowsPerPage);
 
 		// View로 넘길 데이터
 		model.addAttribute("pagesPerGroup", pagesPerGroup);
