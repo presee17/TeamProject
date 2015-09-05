@@ -4,13 +4,7 @@ public class Member {
 	private String id;
 	private String pw;
 	private String name;
-	private int isAdmin;
-	public int getIsAdmin() {
-		return isAdmin;
-	}
-	public void setIsAdmin(int isAdmin) {
-		this.isAdmin = isAdmin;
-	}
+
 	public String getId() {
 		return id;
 	}

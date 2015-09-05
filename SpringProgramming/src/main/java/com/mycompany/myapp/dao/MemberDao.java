@@ -46,16 +46,9 @@ public class MemberDao {
 				member.setId(rs.getString("member_id"));
 				member.setPw(rs.getString("member_password"));
 				member.setName(rs.getString("member_name"));
-				member.setIsAdmin(rs.getInt("member_isadmin"));
 				return member;
 			}
 		});
 		return member;
-	}
-	
-	public Integer selectNoById(String id){
-		String sql = "SELECT * FROM members WHERE member_id=?";
-		Integer rows = jdbcTemplate.update(sql, id);
-		return rows;
 	}
 }

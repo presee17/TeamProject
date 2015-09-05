@@ -37,23 +37,23 @@
 	
 	<body>
 	<div id ="login">
-		<form method="post" action="main.jsp">
+		<form method="post" action="login">
 			<table>
 					<tr>
 						<td>Id :</td>
-						<td><input type="text" name="title"/></td>
+						<td><input type="text" name="id"/></td>
 					</tr>
 					
 					<tr>
 						<td>Pw :</td>
-						<td><input type="password" name="title"/></td>
+						<td><input type="password" name="pw"/></td>
 					</tr>
 					
 					<tr>
 						<td colspan="2" style="text-align: center;">
 							<br/>
 							<input type="submit" value="login"/>
-							<a href ="join.jsp"><button>회원가입</button></a>
+							<a href ="join">회원가입</a>
 						</td>
 					</tr>
 					

@@ -16,7 +16,7 @@ public class MemberService {
 	// 회원가입
 	public boolean join(Member member) {
 		boolean possibleJoin;
-		if (memberDao.selectNoById(member.getId()) == null) {
+		if (memberDao.selectById(member.getId()) == null) {
 			possibleJoin = true;
 			memberDao.insert(member);
 		} else {
@@ -28,7 +28,7 @@ public class MemberService {
 	// 로그인
 	public String login(Member member) {
 		String state = "";
-		if(memberDao.selectNoById(member.getId()) == null){
+		if(memberDao.selectById(member.getId()) == null){
 			state = "noId";
 		}else{
 			if(memberDao.selectById(member.getId()).getPw()!=member.getPw()){

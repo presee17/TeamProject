@@ -36,7 +36,7 @@ public class MemberController {
 			url = "redirect:member/login?state=" + state;
 			break;
 		case "correct":
-			url = "member/menu";
+			url = "member/main";
 			break;
 		}
 		return url;
