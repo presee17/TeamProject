@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<<<<<<< HEAD
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE>
@@ -114,15 +114,5 @@
 			</c:if>
 			<a href="list?pageNo=${totalPageNo}">[맨끝]</a>
 		</div>		
-=======
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
-	<body>
-	
->>>>>>> branch 'master' of https://github.com/presee17/TeamProject.git
 	</body>
 </html>
