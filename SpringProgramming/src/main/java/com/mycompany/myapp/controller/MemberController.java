@@ -1,5 +1,7 @@
 package com.mycompany.myapp.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,46 +19,47 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-	@RequestMapping("/shoppingmall/member")
+	@RequestMapping("/member/member")
 	public String loginForm() {
 		logger.info("loginForm()");
-		return "shoppingmall/member";
+		return "member/member";
 	}
 
-	@RequestMapping("/shoppingmall/login")
-	public String login(Member member) {
+	@RequestMapping("/member/login")
+	public String login(Member member, HttpSession session) {
 		logger.info("login()");
 		String state = memberService.login(member);
 		String url = "";
 		switch (state) {
 		case "noId":
-			url = "redirect:/member/login?state=" + state;
+			url = "redirect:/member/loginfail?state=" + state;
 			break;
 		case "wrongPw":
-			url = "redirect:/member/login?state=" + state;
+			url = "redirect:/member/loginfail?state=" + state;
 			break;
 		case "correct":
 			url = "member/main";
+			session.setAttribute("id", member.getId());
 			break;
 		}
 		return url;
 	}
 
-	@RequestMapping("/shoppingmall/joinForm")
+	@RequestMapping("/member/joinForm")
 	public String joinForm() {
 		logger.info("joinForm()");
-		return "shoppingmall/joinForm";
+		return "member/joinForm";
 	}
 
-	@RequestMapping("/shoppingmall/join")
+	@RequestMapping("/member/join")
 	public String join(Member member) {
 		logger.info("join()");
 		String url = "";
 		boolean possibleJoin = memberService.join(member);
 		if (possibleJoin) {
-			url="redirect:shoppingmall/menu";
+			url="redirect:member/menu";
 		} else {
-			url ="redirect:shoppingmall/join?state=false";
+			url ="redirect:member/join?state=false";
 		}
 		return url;
 	}
