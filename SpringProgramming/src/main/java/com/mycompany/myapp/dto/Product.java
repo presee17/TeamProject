@@ -4,6 +4,13 @@ public class Product {
 	private int pNo;
 	private String pName;
 	private int pPrice;
+	private String detail;
+	public String getDetail() {
+		return detail;
+	}
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
 	public int getpNo() {
 		return pNo;
 	}
