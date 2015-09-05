@@ -13,10 +13,6 @@ import com.mycompany.myapp.dto.OrderItem;
 public class OrderItemService {
 	
 	@Autowired
-
-	private OrderDao orderdao;
-	
-	@Autowired
 	private OrderItemDao orderItemDao;
 
 	public void add(OrderItem orderItem) {
