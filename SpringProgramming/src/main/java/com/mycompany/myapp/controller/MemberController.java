@@ -22,7 +22,7 @@ public class MemberController {
 	@RequestMapping("/shoppingmall/member/member")
 	public String loginForm() {
 		logger.info("loginForm()");
-		return "shopping/member/member";
+		return "shoppingmall/member/member";
 	}
 
 	@RequestMapping("/shoppingmall/member/login")
@@ -38,8 +38,8 @@ public class MemberController {
 			url = "redirect:/shoppingmall/member/loginfail?state=" + state;
 			break;
 		case "correct":
-			url = "main";
-			session.setAttribute("id", member.getId());
+			url = "shoppingmall/main";
+			session.setAttribute("memberId", member.getId());
 			break;
 		}
 		return url;
@@ -51,10 +51,10 @@ public class MemberController {
 		return "shoppingmall/member/loginfail";
 	}
 	
-	@RequestMapping("shoppingmall/member/joinForm")
+	@RequestMapping("shoppingmall/member/joinform")
 	public String joinForm() {
 		logger.info("joinForm()");
-		return "shoppingmall/member/joinForm";
+		return "shoppingmall/member/joinform";
 	}
 
 	@RequestMapping("/shoppingmall/member/join")

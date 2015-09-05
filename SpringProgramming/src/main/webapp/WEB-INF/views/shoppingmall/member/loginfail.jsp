@@ -4,11 +4,14 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
+		<style>
 		
+		</style>
 	</head>
 	
 	<body>
-	로그인 실패 
+	<h2>로그인 실패 </h2>
 	</hr>
+	<h4>실패 정보</h4>
 	</body>
 </html>
