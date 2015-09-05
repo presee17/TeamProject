@@ -26,8 +26,8 @@ public class ProductDao {
 
 	public Integer insert(Product product) {
 		Integer pk = null;
-		String sql = "INSERT INTO products(product_name, product_price) "
-				+ "VALUES(?,?)";
+		String sql = "INSERT INTO products(product_name, product_price,product_detail) "
+				+ "VALUES(?,?,?)";
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -38,6 +38,7 @@ public class ProductDao {
 						new String[] { "product_no" });
 				pstmt.setString(1, product.getpName());
 				pstmt.setInt(2, product.getpPrice());
+				pstmt.setString(3, product.getDetail());
 				return pstmt;
 			}
 		}, keyHolder);
@@ -87,6 +88,7 @@ public class ProductDao {
 						product.setpNo(rs.getInt("product_no"));
 						product.setpName(rs.getString("product_name"));
 						product.setpPrice(rs.getInt("product_price"));
+						product.setDetail(rs.getString("product_detail"));
 						return product;
 					}
 				});
@@ -106,6 +108,7 @@ public class ProductDao {
 						product.setpNo(rs.getInt("product_no"));
 						product.setpName(rs.getString("product_name"));
 						product.setpPrice(rs.getInt("product_price"));
+						product.setDetail(rs.getString("product_detail"));
 						return product;
 					}
 				});
