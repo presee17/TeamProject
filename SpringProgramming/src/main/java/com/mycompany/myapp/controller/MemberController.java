@@ -30,10 +30,10 @@ public class MemberController {
 		String url = "";
 		switch (state) {
 		case "noId":
-			url = "redirect:member/login?state=" + state;
+			url = "redirect:/member/login?state=" + state;
 			break;
 		case "wrongPw":
-			url = "redirect:member/login?state=" + state;
+			url = "redirect:/member/login?state=" + state;
 			break;
 		case "correct":
 			url = "member/main";
