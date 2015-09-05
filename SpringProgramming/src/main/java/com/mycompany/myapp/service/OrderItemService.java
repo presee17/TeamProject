@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.mycompany.myapp.dao.OrderDao;
 import com.mycompany.myapp.dao.OrderItemDao;
 import com.mycompany.myapp.dto.OrderItem;
 
