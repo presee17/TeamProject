@@ -31,7 +31,8 @@ public class MemberService {
 		if(memberDao.selectById(member.getId()) == null){
 			state = "noId";
 		}else{
-			if(memberDao.selectById(member.getId()).getPw()!=member.getPw()){
+			if(memberDao.selectById(member.getId()).getPw().equals(member.getPw())){
+				
 				state = "wrongPw";
 			} else{
 				state = "correct";
