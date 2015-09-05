@@ -37,10 +37,10 @@
 	
 	<body>
 	<div id ="login">
-		<form method="post" action="login">
+		<form method="post" action="join">
 			<table>
 					<tr>
-						<td>Id :</td>
+						<td>id :</td>
 						<td><input type="text" name="id"/></td>
 					</tr>
 					
@@ -50,10 +50,14 @@
 					</tr>
 					
 					<tr>
+						<td>name :</td>
+						<td><input type="password" name="name"/></td>
+					</tr>
+					
+					<tr>
 						<td colspan="2" style="text-align: center;">
 							<br/>
-							<input type="submit" value="login"/>
-							<a href ="join">회원가입</a>
+							<input type="submit" value="회원가입"/>
 						</td>
 					</tr>
 					

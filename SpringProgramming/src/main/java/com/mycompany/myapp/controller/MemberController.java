@@ -63,9 +63,11 @@ public class MemberController {
 		String url = "";
 		boolean possibleJoin = memberService.join(member);
 		if (possibleJoin) {
-			url="redirect:/shoppingmall/member/menu";
+			logger.info("회원가입 성공");
+			url="redirect:/shoppingmall/member/member";
 		} else {
-			url ="redirect:/shoppingmall/member/join?state=false";
+			logger.info("회원가입 실패");
+			url ="redirect:/shoppingmall/member/joinform";
 		}
 		return url;
 	}

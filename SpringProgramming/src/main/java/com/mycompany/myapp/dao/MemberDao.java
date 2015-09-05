@@ -24,7 +24,6 @@ public class MemberDao {
 	// ��� ���.
 	public String insert(Member member){
 		String sql = "insert into members values(?,?,?)";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator(){
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
@@ -34,7 +33,7 @@ public class MemberDao {
 				pstmt.setString(3, member.getPw());
 				return pstmt;
 			}
-		}, keyHolder);
+		});
 		return member.getId();
 	}
 	 
