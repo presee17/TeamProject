@@ -7,7 +7,7 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<style>
-		h5 {
+		h4 {
 		text-align: center;
 		}
 		</style>
