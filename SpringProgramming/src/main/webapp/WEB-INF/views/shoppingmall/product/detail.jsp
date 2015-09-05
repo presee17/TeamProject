@@ -88,7 +88,7 @@
 		</div>
 		
 		<div id="buttonGroup">
-			<a href="product">장바구니 담기</a>
+			<div class="btn" onclick="javascript:alert('장바구니에 담았습니다^^');"><a href="product">장바구니 담기</a></div>
 		</div>		
 	</body>
 </html>
