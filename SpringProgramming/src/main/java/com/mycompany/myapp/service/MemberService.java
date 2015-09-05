@@ -32,10 +32,9 @@ public class MemberService {
 			state = "noId";
 		}else{
 			if(memberDao.selectById(member.getId()).getPw().equals(member.getPw())){
-				
-				state = "wrongPw";
-			} else{
 				state = "correct";
+			} else{
+				state = "wrongPw";
 			}
 		}
 		return state;

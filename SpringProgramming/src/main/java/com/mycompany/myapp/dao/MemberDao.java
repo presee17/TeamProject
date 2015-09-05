@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -39,7 +40,7 @@ public class MemberDao {
 	 
 	public Member selectById(String id){
 		String sql = "SELECT * FROM members WHERE member_id=?";
-		Member member = jdbcTemplate.queryForObject(sql, new Object[] { id }, new RowMapper<Member>() {
+		List<Member> list = jdbcTemplate.query(sql, new Object[] { id }, new RowMapper<Member>() {
 			@Override
 			public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Member member = new Member();
@@ -49,6 +50,10 @@ public class MemberDao {
 				return member;
 			}
 		});
-		return member;
+		if(list.isEmpty()) {
+			return null;
+		} else {
+			return list.get(0);
+		}
 	}
 }

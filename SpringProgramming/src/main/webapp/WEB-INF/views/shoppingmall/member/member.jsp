@@ -53,7 +53,7 @@
 						<td colspan="2" style="text-align: center;">
 							<br/>
 							<input type="submit" value="login"/>
-							<a href ="join">회원가입</a>
+							<a href ="joinform">회원가입</a>
 						</td>
 					</tr>
 					
