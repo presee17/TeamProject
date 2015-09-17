@@ -32,10 +32,10 @@ public class MemberController {
 		String url = "";
 		switch (state) {
 		case "noId":
-			url = "redirect:/shoppingmall/member/loginfail?state=" + state;
+			url = "redirect:/shoppingmall/member/loginfail?state=Nonexisist id.";
 			break;
 		case "wrongPw":
-			url = "redirect:/shoppingmall/member/loginfail?state=" + state;
+			url = "redirect:/shoppingmall/member/loginfail?state=Wrong password";
 			break;
 		case "correct":
 			url = "shoppingmall/main";
@@ -46,8 +46,9 @@ public class MemberController {
 	}
 
 	@RequestMapping("/shoppingmall/member/loginfail")
-	public String loginfail(String state){
+	public String loginfail(String state, Model model){
 		logger.info("joinForm()"+state);
+		model.addAttribute("state" ,state);
 		return "shoppingmall/member/loginfail";
 	}
 	

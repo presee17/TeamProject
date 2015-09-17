@@ -32,6 +32,13 @@
 			margin-top:100px;
 			text-align: center;
 		}
+		
+		.content {
+		color : white;
+		}
+		a{
+		color: white;
+		}
 		</style>
 	</head>
 	
@@ -40,12 +47,16 @@
 		<form method="post" action="login">
 			<table>
 					<tr>
-						<td>Id :</td>
+						<th><h2 class ="content">로그인</h2></th>
+					</tr>
+			
+					<tr>
+						<td class ="content">&nbsp;&nbsp;&nbsp;Id :</td>
 						<td><input type="text" name="id"/></td>
 					</tr>
 					
 					<tr>
-						<td>Pw :</td>
+						<td class ="content">&nbsp;&nbsp;&nbsp;Pw :</td>
 						<td><input type="password" name="pw"/></td>
 					</tr>
 					

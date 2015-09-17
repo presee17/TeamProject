@@ -5,13 +5,16 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<style>
-		
+		h1 { color = white;
+		}		
+		h3 { color = white;		
+		}
 		</style>
 	</head>
 	
 	<body>
-	<h2>로그인 실패 </h2>
+	<h1>로그인 실패 </h1>
 	</hr>
-	<h4>${state}</h4>
+	<h3>실패 정보 : ${state}</h3>
 	</body>
 </html>

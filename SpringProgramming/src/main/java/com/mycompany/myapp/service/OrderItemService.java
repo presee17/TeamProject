@@ -25,6 +25,7 @@ public class OrderItemService {
 	public void remove(int orderNo){
 		orderItemDao.delete(orderNo);
 	}
+	
 	public int getTotalOrderItemNo(int orderNo){
 		int rows=orderItemDao.selectCount(orderNo);
 		return rows;
