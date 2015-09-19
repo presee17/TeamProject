@@ -87,7 +87,7 @@
 		<table>
 			<tr>
 				<th style="width:90px">상품번호</th>
-				<th><a href ="detail?productNo=${propduct.no}">상품이름</a></th>
+				<th><a href ="detail?productNo=${product.no}">상품이름</a></th>
 			</tr>
 			
 			<c:forEach var="product" items="${list}">
