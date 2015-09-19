@@ -26,7 +26,7 @@
 			
 			<c:forEach var="orderlist" items="${list}">
 				<tr>
-					<td><a href ="/shoppingmall/orderItem/OrderItemList?orderNo=${order.no}">${orderlist.orderNo}</a></td>
+					<td><a href ="/shoppingmall/orderItem/orderitemlist?orderNo=${order.no}">${orderlist.orderNo}</a></td>
 		 			<td>${orderlist.orderPrice}</td>
 		 		 	<td>${orderlist.orderDelivery}</td>
 		 		 	<td>${orderlist.orderDate}</td>
