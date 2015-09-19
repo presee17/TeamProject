@@ -24,58 +24,28 @@ public class CartController {
 	private CartService cartService;
 	
 	@RequestMapping("/shoppingmall/cart/insert")
-	public String insert(Cart cart){
-		cartService.add(cart);
+	public String insert(int productNo, int cartCount, HttpSession session){
+		logger.info("insert()");
+		String memberId=(String) session.getAttribute("memberId");
+		//카트 서비스에서 회원 아이디와 상품갯수,번호를 넣으면 장바구니에 추가하는 메서드 추가
+		
+		cartService.add(productNo, cartCount, memberId);
 		return "redirect:/shoppingmall/cart/cart";
 	}
 	
 	
 	@RequestMapping("/shoppingmall/cart/cart")
-	public String list(@RequestParam(defaultValue = "1")int pageNo, String memberId, Model model, HttpSession session) {
-		logger.info("pageNo: "+pageNo);
-		
-		session.setAttribute("pageNo", pageNo);
-		
-		// 페이징을 위한 변수 선언
-		int rowsPerPage = 10;
-		int pagesPerGroup = 5;
+	public String list(HttpSession session, Model model) {
 
-		// 카트목록
-		int totalBoardNo = cartService.getTotalCartNo();
-
-		// 전체 페이지 수
-		int totalPageNo = totalBoardNo / rowsPerPage;
-		if (totalBoardNo % rowsPerPage != 0) {
-			totalPageNo++;
-		}
-
-		// 전체 그룹 수
-		int totalGroupNo = totalPageNo / pagesPerGroup;
-		if (totalPageNo % pagesPerGroup != 0) {
-			totalGroupNo++;
-		}
-
-		// 현재 그룹번호, 시작페이지번호, 끝페이지번호
-		int groupNo = (pageNo - 1) / pagesPerGroup + 1;
-		int startPageNo = (groupNo - 1) * pagesPerGroup + 1;
-		int endPageNo = startPageNo + pagesPerGroup - 1;
-		if (groupNo == totalGroupNo) {
-			endPageNo = totalPageNo;
-		}
-
+		String memberId = (String) session.getAttribute("memberId");
+				
 		// 현재 페이지 게시물 리스트
 		List<Cart> list = cartService.getPage(memberId);
-
+		
 		// View로 넘길 데이터
-		model.addAttribute("pagesPerGroup", pagesPerGroup);
-		model.addAttribute("totalPageNo", totalPageNo);
-		model.addAttribute("totalGroupNo", totalGroupNo);
-		model.addAttribute("groupNo", groupNo);
-		model.addAttribute("startPageNo", startPageNo);
-		model.addAttribute("endPageNo", endPageNo);
-		model.addAttribute("pageNo", pageNo);
-		model.addAttribute("list", list);
 
+		model.addAttribute("list", list);
+		
 		return "shoppingmall/cart/cart";
 	}
 }

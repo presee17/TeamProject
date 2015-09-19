@@ -1,18 +1,20 @@
 package com.mycompany.myapp.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.mycompany.myapp.dao.CartDao;
+import com.mycompany.myapp.dao.ProductDao;
 import com.mycompany.myapp.dto.Cart;
 
 @Component
 public class CartService {
 	@Autowired
 	private CartDao cartDao;
+	@Autowired
+	private ProductDao productDao;
 	// 회원의 장바구니를 모두 모여준다.
 	public List<Cart>  getPage(String memberId) {
 		List<Cart> list = cartDao.selectByMemberId(memberId);
@@ -20,7 +22,13 @@ public class CartService {
 	}
 	
 	// 장바구니에 상품을 넣는다. 만약 회원이 같은 상품을 주문하면 자동으로 update로 넘어간다.
-	public void add(Cart cart){
+	public void add(int productNo, int cartCount, String memberId){
+		//멤버아이디
+		Cart cart = new Cart();
+		cart.setMemberId(memberId);
+		cart.setCartCount(cartCount);
+		cart.setProductNo(productNo);
+	//	cart.setProductName(productDao.);
 		List<Cart> list = cartDao.selectProductNo(cart.getMemberId());
 		boolean i=false;
 		for(Cart c : list){

@@ -44,30 +44,9 @@
 				color: black;
 				background-color: lightgray;
 			}
-			#pager {
-				margin-top: 5px;
-				text-align: center;
-				font-size: small;
+			#list{
+				color:white;
 			}
-			
-			#pager a {
-				text-decoration: none;
-				color: red;
-			}
-			
-			#pager a:hover {
-				color: orange;
-			}
-			
-			#pager a.pageNo {
-				margin-left: 5px;
-				margin-right: 5px;
-			}
-			
-			#pager a.pageNo.selected {
-				color: aqua;
-			}
-			
 			.title{
 			text-decoration: none;
 			color: white;
@@ -91,7 +70,7 @@
 			</tr>
 			
 			<c:forEach var="cart" items="${list}">
-				<tr>
+				<tr id="list">
 					<td><input type="checkbox" name="check"/></td>
 					<td>${cart.productNo}</td>
 					<td>${cart.productName}</td>
