@@ -19,19 +19,17 @@
 	 	<table id="orderlist">
 			<tr>
 	 			<td style="widtd:30px">주문번호</td>
-	 			<td style="widtd:80px">제품이름</td>
-	 		 	<td style="widtd:40px">가격</td>
-	 		 	<td style="widtd:30px">수량</td>
-	 			<td style="widtd:50px">합계</td>
+	 			<td style="widtd:80px">총 가격</td>
+	 		 	<td style="widtd:40px">배송 상태</td>
+	 		 	<td style="widtd:30px">주문 날짜</td>
 			</tr>	
 			
 			<c:forEach var="orderlist" items="${list}">
 				<tr>
-					<td>${orderlist.orderItemNo}</td>
-		 			<td>${orderlist.productName}</td>
-		 		 	<td>${orderlist.productPrice}</td>
-		 		 	<td>${orderlist.orderItemCount}</td>
-		 			<td>${orderlist.orderItemPrice}</td>
+					<td><a href ="/shoppingmall/orderItem/OrderItemList?orderNo=${order.no}">${orderlist.orderNo}</a></td>
+		 			<td>${orderlist.orderPrice}</td>
+		 		 	<td>${orderlist.orderDelivery}</td>
+		 		 	<td>${orderlist.orderDate}</td>
 				</tr>
 			</c:forEach>
 	 	</table>
