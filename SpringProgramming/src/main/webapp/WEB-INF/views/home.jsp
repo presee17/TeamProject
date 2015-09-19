@@ -39,9 +39,7 @@
 				min-height: 300px;
 				display: flex;
 			}
-			#footer {
-				margin: 20px 0px;
-			}			
+				
 			/*------------------------------------*/	
 			#content1 #login {
 				width: 250px;
