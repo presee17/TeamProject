@@ -5,9 +5,9 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<style>
-		h1 { color = white;
+		h1 { color = black;
 		}		
-		h3 { color = white;		
+		h3 { color = black;		
 		}
 		</style>
 	</head>

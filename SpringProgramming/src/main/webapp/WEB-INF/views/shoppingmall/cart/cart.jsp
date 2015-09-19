@@ -23,7 +23,7 @@
 		
 		<style type="text/css">
 			a{
-			color: white;
+			color: black;
 			}
 		
 			table {
@@ -32,7 +32,7 @@
 				font-size: small;
 			}
 			table, th, td {
-				border: 1px solid white;
+				border: 1px solid black;
 				text-align: center;
 			}
 			th {
@@ -44,7 +44,7 @@
 				text-align: center;
 				display:inline-block;
 				background-color: black;
-				color:white;
+				color:black;
 				width:90px;
 				height:30px;
 			}
@@ -57,11 +57,11 @@
 				background-color: lightgray;
 			}
 			#list{
-				color:white;
+				color:black;
 			}
 			.title{
 			text-decoration: none;
-			color: white;
+			color: black;
 			}			
 			
 			.title:hover {
@@ -77,7 +77,7 @@
 		</script>
 	</head>
 	<body>
-		<h4 style="color:white">장바구니 목록</h4>
+		<h4 style="color:black">장바구니 목록</h4>
 		<form name="form1">
 			<table>
 				<tr style="height:40px">

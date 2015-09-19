@@ -84,7 +84,7 @@
 				margin: 1px 10px 1px 20px;
 				text-decoration: none;
 				font-size: small;
-				color: white;
+				color: black;
 			}
 			
 			#content2 #menu a:hover {
