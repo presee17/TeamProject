@@ -76,7 +76,7 @@ public class OrderController {
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("list", list);
 		
-		return "/shoppingmall/order/orderresult";
+		return "/shoppingmall/order/order";
 	}
 	
 	//해당 ID에 해당하는 주문 리스트를 페이징 처리해서 보여줌
@@ -132,6 +132,6 @@ public class OrderController {
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("list", list);
 
-		return "/shoppingmall/order/list";
+		return "/shoppingmall/order/orderitem";
 	}
 }
