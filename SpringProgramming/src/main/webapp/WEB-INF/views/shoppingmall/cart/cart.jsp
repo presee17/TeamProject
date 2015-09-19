@@ -82,8 +82,12 @@
 		
 	
 		<div id="btns">
-			<div class="btn" onclick="javascript:alert('결제완료');">결제하기</div>
-			<div class="btn" onclick="javascript:alert('장바구니 삭제');">지우기</div>
+			<form method="post" action="../cart/insert">
+				<input class="btn" onclick="javascript:alert('결제완료^^');" type="submit" value="결제하기"/>
+			</form>
+			<form method="post" action="../cart/delete">
+				<input class="btn" onclick="javascript:alert('삭제완료^^');" type="submit" value="장바구니삭제"/>
+			</form>
 		</div>
 	</body>
 </html>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.mycompany.myapp.dao.CartDao;
 import com.mycompany.myapp.dao.ProductDao;
 import com.mycompany.myapp.dto.Cart;
+import com.mycompany.myapp.dto.Product;
 
 @Component
 public class CartService {
@@ -15,6 +16,7 @@ public class CartService {
 	private CartDao cartDao;
 	@Autowired
 	private ProductDao productDao;
+	
 	// 회원의 장바구니를 모두 모여준다.
 	public List<Cart>  getPage(String memberId) {
 		List<Cart> list = cartDao.selectByMemberId(memberId);
@@ -29,6 +31,7 @@ public class CartService {
 		cart.setCartCount(cartCount);
 		cart.setProductNo(productNo);
 		cart.setProductName(productDao.selectByProductNoReturnName(productNo));
+		cart.setCartPrice(cartCount*productDao.selectByProductNoReturnPrice(productNo));
 		List<Cart> list = cartDao.selectProductNo(cart.getMemberId());
 		boolean i=false;
 		for(Cart c : list){
