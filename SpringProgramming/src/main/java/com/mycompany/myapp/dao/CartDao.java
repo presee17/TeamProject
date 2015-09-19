@@ -52,7 +52,7 @@ public class CartDao {
 		int rows = jdbcTemplate.update(sql,cartNo,memberId);
 		return rows;
 	}
-		
+
 	//회원이 같은 상품을 또 장바구니에 넣으면 count와 price를 새로 set한다.
 	public int update(Cart cart){
 		String sql = "update carts set cart_count=?,cart_price=? where product_no=? and member_id=?";
@@ -63,7 +63,7 @@ public class CartDao {
 	//회원이 산 장바구니 목록을 보여준다.
 	public List<Cart> selectByMemberId(String memberId){
 		//carts 테이블과 product 테이블을 조인해서 값을 가져옴!
-		String sql = "select p.product_no, p.product_name, c.cart_count, c.cart_price ";
+		String sql = "select c.cart_no,p.product_no, p.product_name, c.cart_count, c.cart_price ";
         sql += "from carts c, products p ";
         sql += "where p.product_no=c.product_no and c.member_id=? ";
     	sql += "order by p.product_no desc ";
