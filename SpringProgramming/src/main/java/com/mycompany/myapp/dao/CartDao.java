@@ -71,7 +71,7 @@ public class CartDao {
 	//회원이 산 장바구니 목록을 보여준다.
 	public List<Cart> selectByMemberId(String memberId){
 		//carts 테이블과 product 테이블을 조인해서 값을 가져옴!
-		String sql = "select p.product_no, p.product_name, c.cart_count, c.cart_price ";
+		String sql = "select c.cart_no,p.product_no, p.product_name, c.cart_count, c.cart_price ";
         sql += "from carts c, products p ";
         sql += "where p.product_no=c.product_no and c.member_id=? ";
     	sql += "order by p.product_no desc ";
@@ -81,6 +81,7 @@ public class CartDao {
 					@Override
 					public Cart mapRow(ResultSet rs, int rowNum) throws SQLException {
 						Cart cart = new Cart();
+						cart.setCartNo(rs.getInt("cart_no"));
 						cart.setProductNo(rs.getInt("product_no"));
 						cart.setProductName(rs.getString("product_name"));
 						cart.setCartCount(rs.getInt("cart_count"));

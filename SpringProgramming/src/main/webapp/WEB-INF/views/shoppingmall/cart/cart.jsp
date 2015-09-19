@@ -56,36 +56,40 @@
 			color:orange;
 			}
 		</style>
+		<script type="text/javascript">
+			function btnClick(url) {
+				var form1 = document.form1;
+				form1.action = url;
+				form1.submit();
+			} 
+		</script>
 	</head>
 	<body>
 		<h4 style="color:white">장바구니 목록</h4>
-		
-		<table>
-			<tr style="height:40px">
-				<th style="width:80px">체크박스</th>
-				<th>상품이름</th>
-				<th style="width:90px">수량</th>
-				<th style="width:150px">가격</th>
-			</tr>
-			
-			<c:forEach var="cart" items="${list}">
-				<tr id="list">
-					<td><input type="checkbox" name="${cart.cartNo}"/></td>
-					<td>${cart.productName}</td>
-					<td>${cart.cartCount}</td>
-					<td>${cart.cartPrice}</td>
+		<form name="form1">
+			<table>
+				<tr style="height:40px">
+					<th style="width:80px">체크박스</th>
+					<th>상품이름</th>
+					<th style="width:90px">수량</th>
+					<th style="width:150px">가격</th>
 				</tr>
-			</c:forEach>
-		</table>
+				
+				<c:forEach var="cart" items="${list}">
+					<tr id="list">
+						<td><input type="checkbox" name="cartNo" value="${cart.cartNo}"/></td>
+						<td>${cart.productName}</td>
+						<td>${cart.cartCount}</td>
+						<td>${cart.cartPrice}</td>
+					</tr>
+				</c:forEach>
+			</table>
+			
 		
-	
-		<div id="btns">
-			<form method="post" action="../order/insert">
-				<input class="btn" onclick="javascript:alert('결제완료^^');" type="submit" value="결제하기"/>
-			</form>
-			<form method="post" action="../cart/delete">
-				<input class="btn" onclick="javascript:alert('삭제완료^^');" type="submit" value="장바구니삭제"/>
-			</form>
-		</div>
+			<div id="btns">
+				<input class="btn" type="button" onclick="javascript:btnClick('../order/insert')" value="결제하기"/>
+				<input class="btn" type="button" onclick="javascript:btnClick('../cart/delete');" value="장바구니삭제"/>
+			</div>
+		</form>
 	</body>
 </html>
