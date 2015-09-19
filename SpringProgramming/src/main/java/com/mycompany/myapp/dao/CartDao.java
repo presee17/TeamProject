@@ -53,13 +53,6 @@ public class CartDao {
 		return rows;
 	}
 
-	//장바구니에서 정해진 카트번호에 해당하는 목록을 삭제한다.
-		public int deleteByPk(String memberId, int cartNo){
-			String sql = "delete from carts where member_id=? and cart_no=?";
-			//해당 회원의 장바구니를 전체삭제한다.
-			int rows = jdbcTemplate.update(sql,memberId, cartNo);
-			return rows;
-		}
 		
 	//회원이 같은 상품을 또 장바구니에 넣으면 count와 price를 새로 set한다.
 	public int update(Cart cart){
