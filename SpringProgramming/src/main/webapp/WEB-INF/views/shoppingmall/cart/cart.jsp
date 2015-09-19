@@ -79,7 +79,7 @@
 		</style>
 	</head>
 	<body>
-		<h4>장바구니 목록</h4>
+		<h4 style="color:white">장바구니 목록</h4>
 		
 		<table>
 			<tr style="height:40px">
@@ -93,10 +93,10 @@
 			<c:forEach var="cart" items="${list}">
 				<tr>
 					<td><input type="checkbox" name="check"/></td>
-					<td>${product.no}</td>
-					<td>${product.name}</td>
-					<td>${cart.count}</td>
-					<td>${cart.price}</td>
+					<td>${cart.productNo}</td>
+					<td>${cart.productName}</td>
+					<td>${cart.cartCount}</td>
+					<td>${cart.cartPrice}</td>
 				</tr>
 			</c:forEach>
 		</table>

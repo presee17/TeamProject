@@ -19,10 +19,10 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-	@RequestMapping("/shoppingmall/member/member")
+	@RequestMapping("/shoppingmall/member/loginform")
 	public String loginForm() {
 		logger.info("loginForm()");
-		return "shoppingmall/member/member";
+		return "shoppingmall/member/loginform";
 	}
 
 	@RequestMapping("/shoppingmall/member/login")
@@ -32,13 +32,13 @@ public class MemberController {
 		String url = "";
 		switch (state) {
 		case "noId":
-			url = "redirect:/shoppingmall/member/loginfail?state=Nonexisist id.";
+			url = "shoppingmall/member/loginfail?state=Nonexisist id.";
 			break;
 		case "wrongPw":
-			url = "redirect:/shoppingmall/member/loginfail?state=Wrong password";
+			url = "shoppingmall/member/loginfail?state=Wrong password";
 			break;
 		case "correct":
-			url = "shoppingmall/main";
+			url = "redirect:/shoppingmall/main";
 			session.setAttribute("memberId", member.getId());
 			break;
 		}

@@ -131,7 +131,7 @@
 						<h4>스프링 게시판</h4>
 						<li><a href="board/list" target="iframe">일반 게시판</a></li>
 						<li><a href="product/list" target="iframe">상품 게시판</a></li>
-						<li><a href="shoppingmall/member/member" target="iframe">쇼핑몰 게시판</a></li>
+						<li><a href="shoppingmall/member/loginform" target="iframe">쇼핑몰 게시판</a></li>
 						<li><a href="file/list" target="iframe">자료 게시판</a></li>
 					</ul>
 				</div>

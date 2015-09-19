@@ -26,7 +26,7 @@ public class CartDao {
 	//cart에 데이터를 넣어준다.
 	public Integer insert(Cart cart){
 		Integer pk = null;
-		String sql = "insert into carts (member_id,product_no,cart_count, cart_price) values(?,?,?,?)";
+		String sql = "insert into carts (member_id,product_no,product_name,cart_count,cart_price) values(?,?,?,?,?)";
 		//member_id, product_no, cart_count, cart_price 순으로 입력하면 insert해준다.
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(new PreparedStatementCreator(){
@@ -35,8 +35,9 @@ public class CartDao {
 				PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"cart_no"});
 				pstmt.setString(1, cart.getMemberId());
 				pstmt.setInt(2, cart.getProductNo());
-				pstmt.setInt(3, cart.getCartCount());
-				pstmt.setInt(4, cart.getCartPrice());
+				pstmt.setString(3, cart.getProductName());
+				pstmt.setInt(4, cart.getCartCount());
+				pstmt.setInt(5, cart.getCartPrice());
 				return pstmt;
 			}
 		}, keyHolder);
@@ -83,7 +84,7 @@ public class CartDao {
 						cart.setProductNo(rs.getInt("product_no"));
 						cart.setProductName(rs.getString("product_name"));
 						cart.setCartCount(rs.getInt("cart_count"));
-						cart.setCartPrice(rs.getInt("cart_price"));
+						cart.setCartPrice(rs.getInt("cart_price")*rs.getInt("cart_count"));
 						return cart;
 					}
 				});
