@@ -28,7 +28,7 @@ public class CartService {
 		cart.setMemberId(memberId);
 		cart.setCartCount(cartCount);
 		cart.setProductNo(productNo);
-	//	cart.setProductName(productDao.);
+		cart.setProductName(productDao.selectByProductNoReturnName(productNo));
 		List<Cart> list = cartDao.selectProductNo(cart.getMemberId());
 		boolean i=false;
 		for(Cart c : list){

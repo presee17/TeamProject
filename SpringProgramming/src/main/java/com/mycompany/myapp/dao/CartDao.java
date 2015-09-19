@@ -37,7 +37,7 @@ public class CartDao {
 				pstmt.setInt(2, cart.getProductNo());
 				pstmt.setString(3, cart.getProductName());
 				pstmt.setInt(4, cart.getCartCount());
-				pstmt.setInt(5, cart.getCartPrice());
+				pstmt.setInt(5, cart.getCartPrice()*cart.getCartCount());
 				return pstmt;
 			}
 		}, keyHolder);
@@ -84,7 +84,7 @@ public class CartDao {
 						cart.setProductNo(rs.getInt("product_no"));
 						cart.setProductName(rs.getString("product_name"));
 						cart.setCartCount(rs.getInt("cart_count"));
-						cart.setCartPrice(rs.getInt("cart_price")*rs.getInt("cart_count"));
+						cart.setCartPrice(rs.getInt("cart_price"));
 						return cart;
 					}
 				});

@@ -22,7 +22,6 @@ public class CartController {
 
 	@Autowired
 	private CartService cartService;
-	
 	@RequestMapping("/shoppingmall/cart/insert")
 	public String insert(int productNo, int cartCount, HttpSession session){
 		logger.info("insert()");
