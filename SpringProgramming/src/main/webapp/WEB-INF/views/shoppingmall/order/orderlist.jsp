@@ -25,13 +25,13 @@
 	 			<td style="widtd:50px">합계</td>
 			</tr>	
 			
-			<c:forEach var="orderresult" items="${list}">
+			<c:forEach var="orderlist" items="${list}">
 				<tr>
-					<td>${orderresult.orderItemNo}</td>
-		 			<td>${orderresult.productName}</td>
-		 		 	<td>${orderresult.productPrice}</td>
-		 		 	<td>${orderresult.orderItemCount}</td>
-		 			<td>${orderresult.orderItemPrice}</td>
+					<td>${orderlist.orderItemNo}</td>
+		 			<td>${orderlist.productName}</td>
+		 		 	<td>${orderlist.productPrice}</td>
+		 		 	<td>${orderlist.orderItemCount}</td>
+		 			<td>${orderlist.orderItemPrice}</td>
 				</tr>
 			</c:forEach>
 	 	</table>

@@ -29,6 +29,7 @@ public class OrderController {
 	@RequestMapping("/shoppingmall/order/order")
 	public String order(@RequestParam(defaultValue = "1") int pageNo, Model model, HttpSession session) {
 		
+		
 		// 페이징을 위한 변수 선언
 		int rowsPerPage = 10;
 		int pagesPerGroup = 5;
@@ -58,6 +59,7 @@ public class OrderController {
 		
 		// 세션에서 아이디 받기
 		String memberId = (String) session.getAttribute("memberId");
+		
 		orderService.cartToOrder(memberId);
 				
 		OrderItem orderitem =new OrderItem ();
@@ -76,7 +78,7 @@ public class OrderController {
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("list", list);
 		
-		return "/shoppingmall/order/order";
+		return "redirect:/shoppingmall/order/orderresult";
 	}
 	
 	//해당 ID에 해당하는 주문 리스트를 페이징 처리해서 보여줌
@@ -131,6 +133,6 @@ public class OrderController {
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("list", list);
 
-		return "/shoppingmall/order/orderresult";
+		return "/shoppingmall/order/orderlist";
 	}
 }
