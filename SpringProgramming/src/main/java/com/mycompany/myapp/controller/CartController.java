@@ -21,12 +21,22 @@ public class CartController {
 	@Autowired
 	private CartService cartService;
 	@RequestMapping("/shoppingmall/cart/insert")
-	public String insert(int productNo, int cartCount, HttpSession session){
+	public String insert(int productNo, int count, HttpSession session){
 		logger.info("insert()");
 		String memberId=(String) session.getAttribute("memberId");
 		//카트 서비스에서 회원 아이디와 상품갯수,번호를 넣으면 장바구니에 추가하는 메서드 추가
 		
-		cartService.add(productNo, cartCount, memberId);
+		cartService.add(productNo, count, memberId);
+		return "redirect:/shoppingmall/cart/cart";
+	}
+	
+	@RequestMapping("/shoppingmall/cart/delete")
+	public String delete(int cartNo, HttpSession session){
+		logger.info("insert()");
+		String memberId=(String) session.getAttribute("memberId");
+		//카트 서비스에서 회원 아이디와 상품갯수,번호를 넣으면 장바구니에 추가하는 메서드 추가
+		
+		cartService.deleteOne(cartNo,memberId);
 		return "redirect:/shoppingmall/cart/cart";
 	}
 	
@@ -35,14 +45,11 @@ public class CartController {
 	public String list(HttpSession session, Model model) {
 
 		String memberId = (String) session.getAttribute("memberId");
-				
 		// 현재 페이지 게시물 리스트
 		List<Cart> list = cartService.getPage(memberId);
-		
 		// View로 넘길 데이터
 
 		model.addAttribute("list", list);
-		
 		return "shoppingmall/cart/cart";
 	}
 }

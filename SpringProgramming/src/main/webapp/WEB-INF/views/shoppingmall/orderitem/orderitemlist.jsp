@@ -59,19 +59,19 @@
 	</head>
 	
 	<body>
-	 	<h5>주문 상세 내역</h5>
+	 	<h4 style="color:white">주문 상세 내역</h4>
 	 	
 	 	<table id="orderItemlist">
 			<tr>
-	 			<td style="widtd:30px">제품번호</td>
-	 			<td style="widtd:80px">제품이름</td>
-	 		 	<td style="widtd:40px">제품가격</td>
-	 		 	<td style="widtd:30px">수량</td>
-	 			<td style="widtd:50px">합계</td>
+	 			<th style="widtd:30px">제품번호</td>
+	 			<th style="widtd:80px">제품이름</td>
+	 		 	<th style="widtd:40px">제품가격</td>
+	 		 	<th style="widtd:30px">수량</td>
+	 			<th style="widtd:50px">합계</td>
 			</tr>	
 
 			<c:forEach var="orderitem" items="${list}">
-				<tr>
+				<tr id="list">
 					<td>${orderitem.productNo}</td>
 		 			<td>${orderitem.productName}</td>
 		 		 	<td>${orderitem.productPrice}</td>
@@ -97,7 +97,10 @@
 			<a href="list?pageNo=${totalPageNo}">[맨끝]</a>
 		</div>
 		<div id="btns">
-			<div class="btn" onclick="javascript:alert('결제완료');">결제하기</div>
+					
+			<a href="../order/orderlist?pageNo=${pageNo}">목록</a>
+			<a href="delete?boardNo=${board.no}">삭제</a>
+			
 		</div>
 	</body>
 </html> 

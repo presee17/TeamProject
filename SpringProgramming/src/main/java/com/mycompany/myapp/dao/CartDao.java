@@ -37,7 +37,7 @@ public class CartDao {
 				pstmt.setInt(2, cart.getProductNo());
 				pstmt.setString(3, cart.getProductName());
 				pstmt.setInt(4, cart.getCartCount());
-				pstmt.setInt(5, cart.getCartPrice()*cart.getCartCount());
+				pstmt.setInt(5, cart.getCartPrice());
 				return pstmt;
 			}
 		}, keyHolder);
@@ -47,9 +47,9 @@ public class CartDao {
 	}
 	
 	//한 상품을 삭제한다
-	public int deleteOne(int productNo, String memberId){
-		String sql = "delete from carts where product_no=? and member_id=?";
-		int rows = jdbcTemplate.update(sql,productNo,memberId);
+	public int deleteOne(int cartNo, String memberId){
+		String sql = "delete from carts where cart_no=? and member_id=?";
+		int rows = jdbcTemplate.update(sql,cartNo,memberId);
 		return rows;
 	}
 
@@ -93,7 +93,7 @@ public class CartDao {
 
 	//회원이 산 상품번호 
 	public List<Cart> selectProductNo(String memberId){
-		String sql="select product_no from products where member_id=?";
+		String sql="select product_no from carts where member_id=?";
 		List<Cart> list = jdbcTemplate.query(sql, new Object[] {memberId},
 				new RowMapper<Cart>() {
 					@Override
