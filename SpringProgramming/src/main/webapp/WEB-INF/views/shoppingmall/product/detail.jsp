@@ -84,7 +84,7 @@
 		</div>
 			<div id="part2">
 			<span class="title">상품설명:</span> <br/>
-			<span class="content" style="width:300px; height:100px;">${product_detail}</span>
+			<span class="content" style="width:300px; height:100px;">${product.detail}</span>
 		</div>
 		
 		<div id="buttonGroup">
