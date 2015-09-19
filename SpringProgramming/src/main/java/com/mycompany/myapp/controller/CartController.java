@@ -25,7 +25,7 @@ public class CartController {
 	private CartService cartService;
 	
 	@RequestMapping("/shoppingmall/cart/cart")
-	public String list(@RequestParam(defaultValue = "1")String memberId,int pageNo, Model model, HttpSession session) {
+	public String list(@RequestParam(defaultValue = "1")int pageNo, String memberId, Model model, HttpSession session) {
 		logger.info("pageNo: "+pageNo);
 		
 		session.setAttribute("pageNo", pageNo);
