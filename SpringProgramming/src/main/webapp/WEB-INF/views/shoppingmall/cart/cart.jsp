@@ -63,7 +63,6 @@
 		<table>
 			<tr style="height:40px">
 				<th style="width:80px">체크박스</th>
-				<th style="width:90px">상품번호</th>
 				<th>상품이름</th>
 				<th style="width:90px">수량</th>
 				<th style="width:150px">가격</th>
@@ -71,8 +70,7 @@
 			
 			<c:forEach var="cart" items="${list}">
 				<tr id="list">
-					<td><input type="checkbox" name="check"/></td>
-					<td>${cart.productNo}</td>
+					<td><input type="checkbox" name="${cart.cartNo}"/></td>
 					<td>${cart.productName}</td>
 					<td>${cart.cartCount}</td>
 					<td>${cart.cartPrice}</td>
@@ -82,8 +80,12 @@
 		
 	
 		<div id="btns">
-			<div class="btn" onclick="javascript:alert('결제완료');">결제하기</div>
-			<div class="btn" onclick="javascript:alert('장바구니 삭제');">지우기</div>
+			<form method="post" action="../order/insert">
+				<input class="btn" onclick="javascript:alert('결제완료^^');" type="submit" value="결제하기"/>
+			</form>
+			<form method="post" action="../cart/delete">
+				<input class="btn" onclick="javascript:alert('삭제완료^^');" type="submit" value="장바구니삭제"/>
+			</form>
 		</div>
 	</body>
 </html>

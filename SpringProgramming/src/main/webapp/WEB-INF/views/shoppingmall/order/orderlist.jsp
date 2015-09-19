@@ -78,6 +78,7 @@
 				</tr>
 			</c:forEach>
 	 	</table>
+
 		<div id="btns">
 					
 			<a href="../main">돌아가기</a>

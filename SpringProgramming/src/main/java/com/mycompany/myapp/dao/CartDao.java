@@ -37,7 +37,7 @@ public class CartDao {
 				pstmt.setInt(2, cart.getProductNo());
 				pstmt.setString(3, cart.getProductName());
 				pstmt.setInt(4, cart.getCartCount());
-				pstmt.setInt(5, cart.getCartPrice()*cart.getCartCount());
+				pstmt.setInt(5, cart.getCartPrice());
 				return pstmt;
 			}
 		}, keyHolder);
@@ -47,20 +47,20 @@ public class CartDao {
 	}
 	
 	//한 상품을 삭제한다
-	public int deleteOne(int productNo, String memberId){
-		String sql = "delete from carts where product_no=? and member_id=?";
-		int rows = jdbcTemplate.update(sql,productNo,memberId);
+	public int deleteOne(int cartNo, String memberId){
+		String sql = "delete from carts where cart_no=? and member_id=?";
+		int rows = jdbcTemplate.update(sql,cartNo,memberId);
 		return rows;
 	}
-	
-	//장바구니에 있는 모든 상품을 삭제한다.
-	public int deleteAll(String memberId){
-		String sql = "delete from carts where member_id=?";
-		//해당 회원의 장바구니를 전체삭제한다.
-		int rows = jdbcTemplate.update(sql,memberId);
-		return rows;
-	}
-	
+
+	//장바구니에서 정해진 카트번호에 해당하는 목록을 삭제한다.
+		public int deleteByPk(String memberId, int cartNo){
+			String sql = "delete from carts where member_id=? and cart_no=?";
+			//해당 회원의 장바구니를 전체삭제한다.
+			int rows = jdbcTemplate.update(sql,memberId, cartNo);
+			return rows;
+		}
+		
 	//회원이 같은 상품을 또 장바구니에 넣으면 count와 price를 새로 set한다.
 	public int update(Cart cart){
 		String sql = "update carts set cart_count=?,cart_price=? where product_no=? and member_id=?";
@@ -93,13 +93,16 @@ public class CartDao {
 
 	//회원이 산 상품번호 
 	public List<Cart> selectProductNo(String memberId){
-		String sql="select product_no from products where member_id=?";
+		String sql="select product_no,cart_count,cart_price from carts where member_id=?";
 		List<Cart> list = jdbcTemplate.query(sql, new Object[] {memberId},
 				new RowMapper<Cart>() {
 					@Override
 					public Cart mapRow(ResultSet rs, int rowNum) throws SQLException {
 						Cart cart = new Cart();
 						cart.setProductNo(rs.getInt("product_no"));
+						cart.setCartCount(rs.getInt("cart_count"));
+						cart.setCartPrice(rs.getInt("cart_price"));
+
 						cart.setMemberId(memberId);
 						return cart;
 					}

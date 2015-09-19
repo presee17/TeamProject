@@ -58,10 +58,11 @@ public class OrderController {
 			endPageNo = totalPageNo;
 		}
 		
-		// 세션에서 아이디 받기
+		// 세션에서 아이디, 체크한 상품 cartNo 받기
 		String memberId = (String) session.getAttribute("memberId");
+		int cartNo = (int) session.getAttribute("cartNo");
 		
-		orderService.cartToOrder(memberId);
+		orderService.cartToOrder(memberId, cartNo);
 				
 		OrderItem orderitem =new OrderItem ();
 		int orderNo = orderitem.getOrderNo();
