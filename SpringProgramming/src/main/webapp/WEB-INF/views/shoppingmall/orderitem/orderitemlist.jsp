@@ -60,9 +60,10 @@
 	
 	<body>
 	 	<h4 style="color:white">주문 상세 내역</h4>
-	 	
+	
 	 	<table id="orderItemlist">
 			<tr>
+				<th style="width:80px">체크박스</th>
 	 			<th style="widtd:30px">제품번호</td>
 	 			<th style="widtd:80px">제품이름</td>
 	 		 	<th style="widtd:40px">제품가격</td>
@@ -97,10 +98,7 @@
 			<a href="list?pageNo=${totalPageNo}">[맨끝]</a>
 		</div>
 		<div id="btns">
-					
-			<a href="../order/orderlist?pageNo=${pageNo}">목록</a>
-			<a href="delete?boardNo=${board.no}">삭제</a>
-			
+				<input class="btn" type="button" onclick="javascript:btnClick('../order/orderlist')" value="목록"/>
 		</div>
 	</body>
 </html> 

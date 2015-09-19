@@ -24,7 +24,7 @@ public class OrderService {
 	// 로그인한 아이디, 장바구니에서 선택한 물품을 주문하는 메소드
 	public void cartToOrder(String memberId, int cartNo) {
 
-		List<Cart> list = cartDao.selectByMemberId(memberId);
+		Cart cart = cartDao.selectByMemberId(memberId);
 		if (!list.isEmpty()) { // 장바구니가 비었을 경우 예외처리
 			int total = 0; // total orderPrice
 			for (Cart cart : list) {
