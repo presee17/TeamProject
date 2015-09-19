@@ -38,6 +38,9 @@
 			#part1_1 {
 				flex: 1;
 			}
+			.content{
+			 	color:white;
+			}
 			
 			#buttonGroup {
 				margin: 10px;
@@ -79,7 +82,7 @@
 				
 				<form method="post" action="../cart/insert">
 					<span class="title">주문수량:</span>
-					<input id="content" type="number" name="count"/>
+					<input id="content" type="number" min="1" name="count"/>
 					<input type="hidden" name ="productNo" value = "${product.no}"/>
 					<input onclick="javascript:alert('장바구니에 담았습니다^^');" type="submit" value="장바구니 담기"/>
 				</form>
