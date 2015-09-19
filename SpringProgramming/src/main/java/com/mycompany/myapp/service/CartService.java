@@ -55,7 +55,7 @@ public class CartService {
 
 	// 회원의 장바구니를 비운다.
 	public void deleteAllCart(String memberId) {
-		cartDao.deleteAll(memberId);
+		//cartDao.deleteAll(memberId);
 	}
 
 	public int getTotalCartNo() {
