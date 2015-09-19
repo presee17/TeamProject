@@ -72,9 +72,8 @@ public class CartDao {
 		//carts 테이블과 product 테이블을 조인해서 값을 가져옴!
 		String sql = "select p.product_no, p.product_name, c.cart_count, c.cart_price ";
         sql += "from carts c, products p ";
-        sql += "where p.product_no=c.product_no and member_id=? ";
+        sql += "where p.product_no=c.product_no and c.member_id=? ";
     	sql += "order by p.product_no desc ";
-		sql += "limit ?,?";
         
 		List<Cart> list = jdbcTemplate.query(sql, new Object[] {memberId},
 				new RowMapper<Cart>() {
