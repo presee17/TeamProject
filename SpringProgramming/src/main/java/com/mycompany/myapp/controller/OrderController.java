@@ -80,13 +80,12 @@ public class OrderController {
 	}
 	
 	//해당 ID에 해당하는 주문 리스트를 페이징 처리해서 보여줌
-	@RequestMapping("/shoppingmall/order/list")
+	@RequestMapping("/shoppingmall/order/orderlist")
 	public String list(@RequestParam(defaultValue = "1") int pageNo, Model model, HttpSession session) {
 		
 		//데이터 넘어왔는지 확인
 		logger.info("pageNo:"+ pageNo);
-		
-		
+				
 		//현재 페이지 session에 저장
 		session.setAttribute("pageNo", pageNo);
 		
@@ -132,6 +131,6 @@ public class OrderController {
 		model.addAttribute("pageNo", pageNo);
 		model.addAttribute("list", list);
 
-		return "/shoppingmall/order/orderitem";
+		return "/shoppingmall/order/orderresult";
 	}
 }
