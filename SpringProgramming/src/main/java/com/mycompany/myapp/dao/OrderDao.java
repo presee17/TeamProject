@@ -77,9 +77,9 @@ public class OrderDao {
 
 	// memberId, pagaNo, rowsPerPage를 매개변수로 해당 아이디에 해당하는 order list를 페이지로 생성하는 메소드
 	public List<Order> selectByPage(String memberId,int pageNo, int rowsPerPage) {
-		String sql = "SELECT * FROM " + "orders " + "WHERE member_id=? ORDER BY order_no DESC " + "limit ?,? ";
+		String sql = "SELECT * FROM orders WHERE member_id=? ORDER BY order_no DESC limit ?,? ";
 
-		List<Order> list = jdbcTemplate.query(sql, new Object[] { (pageNo - 1) * rowsPerPage, rowsPerPage },
+		List<Order> list = jdbcTemplate.query(sql, new Object[] {memberId, (pageNo - 1) * rowsPerPage, rowsPerPage },
 				new RowMapper<Order>() {
 					@Override
 					public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
