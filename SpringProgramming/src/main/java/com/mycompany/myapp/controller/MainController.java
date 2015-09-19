@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	@RequestMapping("/main")
+	@RequestMapping("/shoppingmall/main")
 	public String home() {
 		logger.info("MainController");
-		return "/main";
+		return "shoppingmall/main";
 	}
 }

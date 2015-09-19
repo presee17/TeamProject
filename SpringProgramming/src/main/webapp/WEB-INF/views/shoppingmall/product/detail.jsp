@@ -77,7 +77,8 @@
 				<span class="content">${product.price}</span> <br/>
 				
 				<span class="title">주문수량:</span> 
-				<input id="title" type="number" name="count" value="${cart.count}"/> <br/>
+				
+				<input id="title" type="number" name="count" value= count"/> <br/>
 				
 			</div>
 			
@@ -88,7 +89,7 @@
 		</div>
 		
 		<div id="buttonGroup">
-			<div class="btn" onclick="javascript:alert('장바구니에 담았습니다^^');"><a href="product">장바구니 담기</a></div>
+			<div class="btn" onclick="javascript:alert('장바구니에 담았습니다^^');"><a href="../cart/insert?count=${product.no}& count=count">장바구니 담기</a></div>
 		</div>		
 	</body>
 </html>
