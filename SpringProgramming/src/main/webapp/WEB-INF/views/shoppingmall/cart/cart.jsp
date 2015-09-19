@@ -7,8 +7,20 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<script type="text/javascript">
-		
 		</script>
+		
+		<script>
+		//전체 선택 함수
+		function CheckAll() {
+		    var x = document.getElementById("checkCart");
+		    x.checked = true;
+		}
+		function CheckNot () {
+		    var x = document.getElementById("checkCart");
+		    x.checked = false;
+		}
+		</script>
+		
 		<style type="text/css">
 			a{
 			color: white;
@@ -62,7 +74,7 @@
 		
 		<table>
 			<tr style="height:40px">
-				<th style="width:80px">체크박스</th>
+				<th style="width:80px">선택</th>
 				<th>상품이름</th>
 				<th style="width:90px">수량</th>
 				<th style="width:150px">가격</th>
@@ -70,7 +82,7 @@
 			
 			<c:forEach var="cart" items="${list}">
 				<tr id="list">
-					<td><input type="checkbox" name="${cart.cartNo}"/></td>
+					<td><input type="checkbox" id="checkCart" name="${cart.cartNo}"/></td>
 					<td>${cart.productName}</td>
 					<td>${cart.cartCount}</td>
 					<td>${cart.cartPrice}</td>
@@ -80,6 +92,8 @@
 		
 	
 		<div id="btns">
+			<button onclick="CheckAll()">전체 선택</button>
+			<button onclick="CheckNot()">선택 해제</button>
 			<form method="post" action="../order/insert">
 				<input class="btn" onclick="javascript:alert('결제완료^^');" type="submit" value="결제하기"/>
 			</form>
