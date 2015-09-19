@@ -27,28 +27,11 @@
 				background-color: orange;
 				color: black;
 			}
-			
-			.btn a {
-				display:inline-block;
-				width: 70px;
-				line-height: 30px;
-				text-decoration: none;
-				font-size: small;
-				color: white;
-				border: 1px solid darkgray;
-				background-color: gray;
-				font-weight: bold;
-			}
-			
-			.btn a:hover {
-				color: black;
-				background-color: lightgray;
-			}
-			
 			.btn {
 				margin: 10px;
 				text-align: center;
 				display:inline-block;
+				background-color: black;
 				color:white;
 				width:90px;
 				height:30px;
@@ -98,8 +81,8 @@
 
 		<div id="btns">
 					
-			<div class="btn"><a href="../main">메인 메뉴</a></div>
-			
+			<a href="../main">돌아가기</a>
+
 		</div>
 	</body>
 </html> 

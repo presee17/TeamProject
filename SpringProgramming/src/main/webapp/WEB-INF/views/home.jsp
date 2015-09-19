@@ -15,7 +15,8 @@
 				width: 960px;
 				margin: 0px auto;
 				background-color: #292929;
-				color: #FFFFFF;
+				background:url(resources/image/cloud2.jpg) center center; 
+				background-size:cover;
 			}	
 			/*------------------------------------*/				
 			#page {
@@ -108,6 +109,7 @@
 	<body>
 		<div id="page">
 			<div id="header">
+			<img id ="logo" src ="resources/image/logo.png"/>
 				<h1>SpringProgramming</h1>
 			</div>
 			

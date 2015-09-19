@@ -60,10 +60,7 @@ public class OrderController {
 		}
 		
 		// 세션에서 아이디, 체크한 상품 cartNo 받기
-		String memberId = (String) session.getAttribute("memberId");
-		
-		orderService.cartToOrder(cartNo, memberId);
-				
+		String memberId = (String) session.getAttribute("memberId");		
 		OrderItem orderitem =new OrderItem ();
 		int orderNo = orderitem.getOrderNo();
 		
