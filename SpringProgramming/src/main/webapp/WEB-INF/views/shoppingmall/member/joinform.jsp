@@ -17,7 +17,7 @@
 				line-height: 30px;
 				text-decoration: none;
 				font-size: small;
-				color: white;
+				color: black;
 				border: 1px solid darkgray;
 				background-color: gray;
 				font-weight: bold;

@@ -15,7 +15,8 @@
 				width: 960px;
 				margin: 0px auto;
 				background-color: #292929;
-				color: #FFFFFF;
+				background:url(resources/image/cloud2.jpg) center center; 
+				background-size:cover;
 			}	
 			/*------------------------------------*/				
 			#page {
@@ -38,9 +39,7 @@
 				min-height: 300px;
 				display: flex;
 			}
-			#footer {
-				margin: 20px 0px;
-			}			
+				
 			/*------------------------------------*/	
 			#content1 #login {
 				width: 250px;
@@ -83,7 +82,7 @@
 				margin: 1px 10px 1px 20px;
 				text-decoration: none;
 				font-size: small;
-				color: white;
+				color: black;
 			}
 			
 			#content2 #menu a:hover {
@@ -108,6 +107,7 @@
 	<body>
 		<div id="page">
 			<div id="header">
+			<img id ="logo" src ="resources/image/logo.png"/>
 				<h1>SpringProgramming</h1>
 			</div>
 			

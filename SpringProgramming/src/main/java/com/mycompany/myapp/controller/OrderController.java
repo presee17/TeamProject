@@ -66,6 +66,7 @@ public class OrderController {
 			
 		}
 				
+		String memberId = (String) session.getAttribute("memberId");		
 		OrderItem orderitem =new OrderItem ();
 		int orderNo = orderitem.getOrderNo();
 		

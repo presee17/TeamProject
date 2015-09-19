@@ -11,7 +11,7 @@
 		</script>
 		<style type="text/css">
 			a{
-			color: white;
+			color: black;
 			}
 		
 			table {
