@@ -28,7 +28,8 @@ public class OrderController {
 	
 	//주문 버튼을 누르면 실행
 	@RequestMapping("/shoppingmall/order/insert")
-	public String order(@RequestParam(defaultValue = "1") int pageNo, Model model, HttpSession session) {
+	public String order(@RequestParam(defaultValue = "1") int pageNo, 
+			Model model, HttpSession session, int[] cartNo) {
 		
 		
 		// 페이징을 위한 변수 선언
@@ -60,9 +61,8 @@ public class OrderController {
 		
 		// 세션에서 아이디, 체크한 상품 cartNo 받기
 		String memberId = (String) session.getAttribute("memberId");
-		int cartNo = (int) session.getAttribute("cartNo");
 		
-		orderService.cartToOrder(memberId, cartNo);
+		orderService.cartToOrder(cartNo, memberId);
 				
 		OrderItem orderitem =new OrderItem ();
 		int orderNo = orderitem.getOrderNo();

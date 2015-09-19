@@ -34,6 +34,7 @@ public class CartController {
 	public String delete(int cartNo, HttpSession session){
 		logger.info("insert()");
 		String memberId=(String) session.getAttribute("memberId");
+	
 		//카트 서비스에서 회원 아이디와 상품갯수,번호를 넣으면 장바구니에 추가하는 메서드 추가
 		
 		cartService.deleteOne(cartNo,memberId);
