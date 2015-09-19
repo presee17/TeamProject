@@ -45,7 +45,7 @@ public class OrderService {
 				orderItem.setOrderNo(orderNo);
 				orderItemDao.insert(orderItem);
 			}
-			// 장바구니 비우기
+			// 장바구니에서 해당 상품 삭제
 			cartDao.deleteByPk(memberId, cartNo);
 		}
 	}

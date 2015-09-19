@@ -27,7 +27,7 @@ public class OrderController {
 	
 	
 	//주문 버튼을 누르면 실행
-	@RequestMapping("/shoppingmall/order/order")
+	@RequestMapping("/shoppingmall/order/insert")
 	public String order(@RequestParam(defaultValue = "1") int pageNo, Model model, HttpSession session) {
 		
 		

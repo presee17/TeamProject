@@ -7,8 +7,20 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<script type="text/javascript">
-		
 		</script>
+		
+		<script>
+		//전체 선택 함수
+		function CheckAll() {
+		    var x = document.getElementById("checkCart");
+		    x.checked = true;
+		}
+		function CheckNot () {
+		    var x = document.getElementById("checkCart");
+		    x.checked = false;
+		}
+		</script>
+		
 		<style type="text/css">
 			a{
 			color: white;
@@ -84,8 +96,7 @@
 					</tr>
 				</c:forEach>
 			</table>
-			
-		
+
 			<div id="btns">
 				<input class="btn" type="button" onclick="javascript:btnClick('../order/insert')" value="결제하기"/>
 				<input class="btn" type="button" onclick="javascript:btnClick('../cart/delete');" value="장바구니삭제"/>
