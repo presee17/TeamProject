@@ -23,6 +23,13 @@ public class CartController {
 	@Autowired
 	private CartService cartService;
 	
+	@RequestMapping("/shoppingmall/cart/insert")
+	public String insert(Cart cart){
+		cartService.add(cart);
+		return "redirect:/shoppingmall/cart/cart";
+	}
+	
+	
 	@RequestMapping("/shoppingmall/cart/cart")
 	public String list(@RequestParam(defaultValue = "1")int pageNo, String memberId, Model model, HttpSession session) {
 		logger.info("pageNo: "+pageNo);

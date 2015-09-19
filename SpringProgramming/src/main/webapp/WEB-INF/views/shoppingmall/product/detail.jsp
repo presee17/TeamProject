@@ -78,7 +78,7 @@
 				
 				<span class="title">주문수량:</span> 
 				
-				<input id="title" type="number" name="count" value= count"/> <br/>
+				<input id="title" type="number" name="count"/> <br/>
 				
 			</div>
 			
