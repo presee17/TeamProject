@@ -68,7 +68,9 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/shoppingmall/product/detail")
-	public String productDetail() {
+	public String productDetail(int no,Model model) {
+		Product product = productService.getProduct(no);
+		model.addAttribute("product",product);
 		return "shoppingmall/product/detail";
 	}
 }
