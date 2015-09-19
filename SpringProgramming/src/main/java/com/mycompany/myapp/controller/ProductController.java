@@ -22,7 +22,6 @@ public class ProductController {
 	@RequestMapping("/shoppingmall/product/product")
 	public String list(@RequestParam(defaultValue = "1") int pageNo, Model model, HttpSession session) {
 		
-		
 		session.setAttribute("pageNo", pageNo);
 		
 		// 페이징을 위한 변수 선언

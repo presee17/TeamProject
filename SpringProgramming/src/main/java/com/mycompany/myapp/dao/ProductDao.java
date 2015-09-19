@@ -36,8 +36,8 @@ public class ProductDao {
 					throws SQLException {
 				PreparedStatement pstmt = conn.prepareStatement(sql,
 						new String[] { "product_no" });
-				pstmt.setString(1, product.getpName());
-				pstmt.setInt(2, product.getpPrice());
+				pstmt.setString(1, product.getName());
+				pstmt.setInt(2, product.getPrice());
 				pstmt.setString(3, product.getDetail());
 				return pstmt;
 			}
@@ -50,15 +50,15 @@ public class ProductDao {
 
 	public Integer updateProductName(Product product) {
 		String sql = "UPDATE products SET product_name=? WHERE product_no=?";
-		int rows = jdbcTemplate.update(sql, product.getpName(),
-				product.getpNo());
+		int rows = jdbcTemplate.update(sql, product.getName(),
+				product.getNo());
 		return rows;
 	}
 
 	public Integer updateProductPrice(Product product)  {
 		String sql = "UPDATE products SET product_name=? WHERE product_no=?";
-		int rows = jdbcTemplate.update(sql, product.getpPrice(),
-				product.getpNo());
+		int rows = jdbcTemplate.update(sql, product.getPrice(),
+				product.getNo());
 		return rows;
 
 	}
@@ -85,9 +85,9 @@ public class ProductDao {
 					public Product mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
 						Product product = new Product();
-						product.setpNo(rs.getInt("product_no"));
-						product.setpName(rs.getString("product_name"));
-						product.setpPrice(rs.getInt("product_price"));
+						product.setNo(rs.getInt("product_no"));
+						product.setName(rs.getString("product_name"));
+						product.setPrice(rs.getInt("product_price"));
 						product.setDetail(rs.getString("product_detail"));
 						return product;
 					}
@@ -105,9 +105,9 @@ public class ProductDao {
 					public Product mapRow(ResultSet rs, int rowNum)
 							throws SQLException {
 						Product product = new Product();
-						product.setpNo(rs.getInt("product_no"));
-						product.setpName(rs.getString("product_name"));
-						product.setpPrice(rs.getInt("product_price"));
+						product.setNo(rs.getInt("product_no"));
+						product.setName(rs.getString("product_name"));
+						product.setPrice(rs.getInt("product_price"));
 						product.setDetail(rs.getString("product_detail"));
 						return product;
 					}
