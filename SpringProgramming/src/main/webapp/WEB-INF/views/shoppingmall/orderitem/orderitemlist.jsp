@@ -6,10 +6,55 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
-		<style>
-		h5 {
-		text-align: center;
-		}
+				<script type="text/javascript">
+		
+		</script>
+		<style type="text/css">
+			a{
+			color: white;
+			}
+		
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				font-size: small;
+			}
+			table, th, td {
+				border: 1px solid white;
+				text-align: center;
+			}
+			th {
+				background-color: orange;
+				color: black;
+			}
+			.btn {
+				margin: 10px;
+				text-align: center;
+				display:inline-block;
+				background-color: black;
+				color:white;
+				width:90px;
+				height:30px;
+			}
+			#btns{
+				text-align: center;
+			}
+			
+			.btn:hover {
+				color: black;
+				background-color: lightgray;
+			}
+			#list{
+				color:white;
+			}
+			.title{
+			text-decoration: none;
+			color: white;
+			}			
+			
+			.title:hover {
+			color:orange;
+			}
 		</style>
 	</head>
 	
@@ -50,6 +95,9 @@
 				<a href="list?pageNo=${endPageNo+1}">[다음]</a>
 			</c:if>
 			<a href="list?pageNo=${totalPageNo}">[맨끝]</a>
+		</div>
+		<div id="btns">
+			<div class="btn" onclick="javascript:alert('결제완료');">결제하기</div>
 		</div>
 	</body>
 </html> 
