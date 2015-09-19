@@ -93,13 +93,16 @@ public class CartDao {
 
 	//회원이 산 상품번호 
 	public List<Cart> selectProductNo(String memberId){
-		String sql="select product_no from carts where member_id=?";
+		String sql="select product_no,cart_count,cart_price from carts where member_id=?";
 		List<Cart> list = jdbcTemplate.query(sql, new Object[] {memberId},
 				new RowMapper<Cart>() {
 					@Override
 					public Cart mapRow(ResultSet rs, int rowNum) throws SQLException {
 						Cart cart = new Cart();
 						cart.setProductNo(rs.getInt("product_no"));
+						cart.setCartCount(rs.getInt("cart_count"));
+						cart.setCartPrice(rs.getInt("cart_price"));
+
 						cart.setMemberId(memberId);
 						return cart;
 					}

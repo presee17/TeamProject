@@ -36,7 +36,8 @@ public class CartService {
 		boolean i=false;
 		for(Cart c : list){
 			if(c.getProductNo()==cart.getProductNo()){
-				cart=c;
+				cart.setCartCount(c.getCartCount()+cart.getCartCount());
+				cart.setCartPrice(c.getCartPrice()+cart.getCartPrice());
 				i=true;
 			}
 		}
