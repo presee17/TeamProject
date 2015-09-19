@@ -93,9 +93,26 @@ public class ProductDao {
 					}
 				});
 		return product;
-
 	}
 
+	public String selectByProductNoReturnName(int pNo){
+		String sql = "SELECT * FROM products WHERE product_no=?";
+		Product product = jdbcTemplate.queryForObject(sql,
+				new Object[] { pNo }, new RowMapper<Product>() {
+					@Override
+					public Product mapRow(ResultSet rs, int rowNum)
+							throws SQLException {
+						Product product = new Product();
+						product.setNo(rs.getInt("product_no"));
+						product.setName(rs.getString("product_name"));
+						product.setPrice(rs.getInt("product_price"));
+						product.setDetail(rs.getString("product_detail"));
+						return product;
+					}
+				});
+		return product.getName();
+	}
+	
 	public List<Product> selectAllByPage(int pageNo, int rowsPerPage){
 		String sql = "SELECT * FROM products LIMIT ?,?";
 		List<Product> list = jdbcTemplate.query(sql, new Object[] {

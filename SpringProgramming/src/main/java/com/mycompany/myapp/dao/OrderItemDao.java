@@ -113,7 +113,7 @@ public class OrderItemDao {
 	}
 */
 	public int selectCount(int orderNo){
-		String sql = "select count(*) from orderitems where=?";
+		String sql = "select count(*) from orderitems where order_no=?";
 		int rows=jdbcTemplate.queryForObject(sql,new Object[]{orderNo},Integer.class);
 		return rows;
 	}

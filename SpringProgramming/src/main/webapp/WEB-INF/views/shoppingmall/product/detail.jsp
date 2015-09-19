@@ -77,7 +77,7 @@
 				<span class="content">${product.price}</span> <br/>
 				 
 				
-				<form method="post" action="/cart/insert">
+				<form method="post" action="../cart/insert">
 					<span class="title">주문수량:</span>
 					<input id="content" type="number" name="count"/>
 					<input type="hidden" name ="productNo" value = "${product.no}"/>
