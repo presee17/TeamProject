@@ -75,10 +75,14 @@
 				
 				<span class="title">단가: </span> 
 				<span class="content">${product.price}</span> <br/>
+				 
 				
-				<span class="title">주문수량:</span> 
-				
-				<input id="title" type="number" name="count"/> <br/>
+				<form method="post" action="/cart/insert">
+					<span class="title">주문수량:</span>
+					<input id="content" type="number" name="count"/>
+					<input type="hidden" name ="productNo" value = "${product.no}"/>
+					<input onclick="javascript:alert('장바구니에 담았습니다^^');" type="submit" value="장바구니 담기"/>
+				</form>
 				
 			</div>
 			
@@ -86,10 +90,6 @@
 			<div id="part2">
 			<span class="title">상품설명:</span> <br/>
 			<span class="content" style="width:300px; height:100px;">${product.detail}</span>
-		</div>
-		
-		<div id="buttonGroup">
-			<div class="btn" onclick="javascript:alert('장바구니에 담았습니다^^');"><a href="../cart/insert?count=${product.no}& count=count">장바구니 담기</a></div>
-		</div>		
+		</div>	
 	</body>
 </html>
