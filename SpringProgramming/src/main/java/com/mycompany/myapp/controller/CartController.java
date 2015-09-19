@@ -27,7 +27,7 @@ public class CartController {
 		//카트 서비스에서 회원 아이디와 상품갯수,번호를 넣으면 장바구니에 추가하는 메서드 추가
 		
 		cartService.add(productNo, cartCount, memberId);
-		return "redirect:/shoppingmall/cart/cart";
+		return "redirect:/shoppingmall/product/product";
 	}
 	
 	
