@@ -40,9 +40,7 @@
 			<div class="btn"><a href="../product/product">상품리스트</a></div>
 
 			<div class="btn"><a href="../cart/cart" target="iframe">장바구니</a></div>
-
-			<div class="btn"><a href="../cart/cart">장바구니</a></div>
-
+			
 			<div class="btn"><a href="../order/order">주문내역</a></div>
 		</div>
 	</body>
