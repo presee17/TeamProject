@@ -25,7 +25,7 @@
 	 			<td style="widtd:50px">합계</td>
 			</tr>	
 			
-			<c:forEach var="orderresult" items="${list}">
+			<c:forEach var="orderitemresult" items="${list}">
 				<tr>
 					<td>${orderresult.orderItemNo}</td>
 		 			<td>${orderresult.productName}</td>
