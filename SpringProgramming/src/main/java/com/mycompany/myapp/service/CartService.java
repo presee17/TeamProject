@@ -48,8 +48,8 @@ public class CartService {
 	}
 	
 	// 회원이 장바구니에 담은 상품하나를 삭제한다.
-	public void deleteOne(int productNo,String memberId) {
-		cartDao.deleteOne(productNo,memberId);
+	public void deleteOne(int cartNo,String memberId) {
+		cartDao.deleteOne(cartNo,memberId);
 	}
 
 	// 회원의 장바구니를 비운다.

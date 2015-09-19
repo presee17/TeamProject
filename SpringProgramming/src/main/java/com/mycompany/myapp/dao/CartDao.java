@@ -47,9 +47,9 @@ public class CartDao {
 	}
 	
 	//한 상품을 삭제한다
-	public int deleteOne(int productNo, String memberId){
-		String sql = "delete from carts where product_no=? and member_id=?";
-		int rows = jdbcTemplate.update(sql,productNo,memberId);
+	public int deleteOne(int cartNo, String memberId){
+		String sql = "delete from carts where cart_no=? and member_id=?";
+		int rows = jdbcTemplate.update(sql,cartNo,memberId);
 		return rows;
 	}
 	
