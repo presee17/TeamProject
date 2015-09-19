@@ -21,8 +21,8 @@ public class OrderService {
 	private CartDao cartDao;
 	private OrderItemDao orderItemDao;
 
-	// 로그인한 아이디에 해당하는 장바구니 물품을 주문하는 메소드
-	public void cartToOrder(String memberId) {
+	// 로그인한 아이디, 장바구니에서 선택한 물품을 주문하는 메소드
+	public void cartToOrder(String memberId, int cartNo) {
 
 		List<Cart> list = cartDao.selectByMemberId(memberId);
 		if (!list.isEmpty()) { // 장바구니가 비었을 경우 예외처리
@@ -46,7 +46,7 @@ public class OrderService {
 				orderItemDao.insert(orderItem);
 			}
 			// 장바구니 비우기
-			cartDao.deleteAll(memberId);
+			cartDao.deleteByPk(memberId, cartNo);
 		}
 	}
 	

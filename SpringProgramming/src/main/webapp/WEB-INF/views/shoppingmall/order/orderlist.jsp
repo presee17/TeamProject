@@ -33,6 +33,5 @@
 				</tr>
 			</c:forEach>
 	 	</table>
-			주문이 완료되었습니다.
 	</body>
 </html> 
